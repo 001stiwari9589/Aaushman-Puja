@@ -1,0 +1,231 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================================================
+   DIVINE VEDIC PUJA - WARM LIGHT PROFESSIONAL DESIGN SYSTEM
+   Fonts: Philosopher (Headings), Poppins + Noto Sans Devanagari (Body)
+   ======================================================== */
+
+:root {
+  --bg-page: #FFF8EC;
+  --bg-alt: #FBEBD0;
+  --bg-card: #FFFFFF;
+  --border-card: #EBD5B0;
+  --shadow-card: 0 8px 24px rgba(74, 28, 12, 0.08);
+
+  --color-primary: #E65100;
+  --color-primary-hover: #BF360C;
+  --color-gold: #C8961E;
+
+  --text-heading: #4A1C0C;
+  --text-body: #5D4037;
+  --text-muted: #8D6E63;
+
+  --bg-maroon: #3B1208;
+  --text-cream: #FFF1D6;
+  --color-whatsapp: #25D366;
+
+  --font-heading: 'Philosopher', 'Noto Sans Devanagari', serif;
+  --font-sans: 'Poppins', 'Noto Sans Devanagari', sans-serif;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+    background-color: var(--bg-page);
+    color: var(--text-body);
+    font-size: 16px;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-page);
+    color: var(--text-body);
+    overflow-x: hidden;
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--text-heading);
+  }
+}
+
+::selection {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-alt);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* Typography Helpers */
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+/* Ornate Vedic Divider */
+.vedic-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 14px 0;
+}
+.vedic-divider::before,
+.vedic-divider::after {
+  content: '';
+  width: 56px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+
+/* Warm Light Cards */
+.vedic-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+@media (min-width: 1024px) {
+  .vedic-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 32px rgba(74, 28, 12, 0.14);
+    border-color: var(--color-gold);
+  }
+}
+
+/* Primary & Secondary Buttons */
+.btn-saffron-primary {
+  background: var(--color-primary);
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.75rem 1.5rem;
+  min-height: 44px;
+  border-radius: 0.625rem;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 14px rgba(230, 81, 0, 0.25);
+}
+.btn-saffron-primary:hover {
+  background: var(--color-primary-hover);
+  box-shadow: 0 6px 20px rgba(191, 54, 12, 0.35);
+}
+.btn-saffron-primary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.btn-saffron-outline {
+  background: #FFFFFF;
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.75rem 1.5rem;
+  min-height: 44px;
+  border-radius: 0.625rem;
+  border: 1.5px solid var(--color-primary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.btn-saffron-outline:hover {
+  background: var(--bg-alt);
+  color: var(--color-primary-hover);
+}
+
+/* Clean White Form Inputs with #EBD5B0 border and Saffron focus ring */
+.vedic-input {
+  width: 100%;
+  min-height: 44px;
+  background: #FFFFFF;
+  border: 1px solid #EBD5B0;
+  border-radius: 0.625rem;
+  padding: 0.65rem 1rem;
+  color: var(--text-heading);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+.vedic-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.85;
+}
+.vedic-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(230, 81, 0, 0.16);
+}
+.vedic-input option {
+  background: #FFFFFF;
+  color: var(--text-heading);
+}
+
+.vedic-label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-heading);
+  margin-bottom: 0.4rem;
+}
+
+/* Custom Cursor (Desktop >= 1024px non-touch only) */
+.custom-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+}
+.custom-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid rgba(230, 81, 0, 0.55);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+}
