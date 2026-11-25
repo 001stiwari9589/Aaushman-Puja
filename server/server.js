@@ -43,9 +43,14 @@ const configuredOrigins = (process.env.CLIENT_ORIGIN || '')
   .map((o) => o.trim())
   .filter(Boolean);
 
+const vercelOrigins = [
+  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '',
+  process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : '',
+].filter(Boolean);
+
 const allowedOrigins = IS_PROD
-  ? configuredOrigins
-  : [...new Set([...configuredOrigins, 'http://localhost:5173', 'http://localhost:5174', 'http://127.0.0.1:5173'])];
+  ? [...new Set([...configuredOrigins, ...vercelOrigins])]
+  : [...new Set([...configuredOrigins, ...vercelOrigins, 'http://localhost:5173', 'http://localhost:5174', 'http://127.0.0.1:5173'])];
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -154,8 +159,10 @@ const safeCompare = (a, b) => {
   return crypto.timingSafeEqual(bufA, bufB);
 };
 
-// Persistent local JSON fallback store (starts clean with NO sample/dummy data)
-const DATA_FILE = path.join(__dirname, 'bookings_data.json');
+// Persistent local JSON fallback store (uses /tmp on Vercel serverless)
+const DATA_FILE = process.env.VERCEL
+  ? '/tmp/bookings_data.json'
+  : path.join(__dirname, 'bookings_data.json');
 let localStore = { bookings: [], brahmins: [], reviews: [] };
 
 if (fs.existsSync(DATA_FILE)) {
@@ -690,6 +697,10 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`🕉️ Divine Vedic Puja Server running securely on port ${PORT}`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`🕉️ Divine Vedic Puja Server running securely on port ${PORT}`);
+  });
+}
+
+export default app;
