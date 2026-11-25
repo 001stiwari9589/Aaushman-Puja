@@ -126,6 +126,10 @@ function MainAppContent() {
               <>
                 <Hero />
                 <Services />
+                <BookingForm preselectedPuja={pagePreselectedPuja} />
+                <Suspense fallback={<div className="py-12 text-center text-[#8D6E63] font-sans">Loading reviews...</div>}>
+                  <Testimonials />
+                </Suspense>
               </>
             )}
             {mobilePage === 'services' && <Services />}
@@ -156,7 +160,11 @@ function MainAppContent() {
         )}
       </main>
 
-      <Footer onOpenBrahminModal={() => setIsBrahminModalOpen(true)} />
+      <Footer
+        onOpenBrahminModal={() => setIsBrahminModalOpen(true)}
+        isMobileView={isMobileView}
+        onMobileNavigate={handleMobileNavigate}
+      />
 
       <FloatingActions />
       <QuickBookingPopup />

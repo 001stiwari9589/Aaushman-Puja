@@ -1,20 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
   <defs>
-    <radialGradient id="goldGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#FFF0CA"/>
-      <stop offset="50%" stop-color="#F5B91B"/>
-      <stop offset="100%" stop-color="#30170D"/>
-    </radialGradient>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-      <feMerge>
-        <feMergeNode in="coloredBlur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF8EC"/>
+      <stop offset="100%" stop-color="#FBEBD0"/>
+    </linearGradient>
   </defs>
-  <circle cx="50" cy="50" r="46" fill="#160D09" stroke="#F5B91B" stroke-width="3"/>
-  <circle cx="50" cy="50" r="40" fill="none" stroke="#DCA52A" stroke-width="1" stroke-dasharray="3,3"/>
-  <!-- Sacred Om Glyphs -->
-  <text x="50" y="65" font-family="'Cinzel', serif" font-size="44" font-weight="bold" fill="#F5B91B" text-anchor="middle" filter="url(#glow)">ॐ</text>
+  <circle cx="32" cy="32" r="30" fill="url(#bgGrad)" stroke="#C8961E" stroke-width="3"/>
+
+  <!-- Sacred Diya Flame -->
+  <path d="M32 9C32 9 26 16 26 20.5C26 23.8 28.7 26.5 32 26.5C35.3 26.5 38 23.8 38 20.5C38 16 32 9 32 9Z" fill="#E65100"/>
+  <path d="M32 14.5C32 14.5 29.2 18.2 29.2 20.5C29.2 22 30.5 23.2 32 23.2C33.5 23.2 34.8 22 34.8 20.5C34.8 18.2 32 14.5 32 14.5Z" fill="#FFF8EC"/>
+
+  <!-- Mango Leaves / Lotus Petals -->
+  <path d="M21 31.5C17 26.5 13.5 27.5 12.5 31.5C15.5 33.5 18.5 34.5 22 33.5L21 31.5Z" fill="#C8961E"/>
+  <path d="M43 31.5C47 26.5 50.5 27.5 51.5 31.5C48.5 33.5 45.5 34.5 42 33.5L43 31.5Z" fill="#C8961E"/>
+
+  <!-- Sacred Kalash Pot -->
+  <path d="M23.5 31.5H40.5L39 35.8C42.8 38.2 44.8 42.2 43.8 46.5C42.8 51 38.4 54.2 32 54.2C25.6 54.2 21.2 51 20.2 46.5C19.2 42.2 21.2 38.2 25 35.8L23.5 31.5Z" fill="#E65100" stroke="#4A1C0C" stroke-width="1.5"/>
+
+  <!-- Kalash Neck & Tilak Band -->
+  <rect x="22.5" y="29.5" width="19" height="3.2" rx="1.6" fill="#C8961E"/>
+  <path d="M26 43.5C29.8 45.3 34.2 45.3 38 43.5" stroke="#FFF8EC" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="32" cy="40" r="1.8" fill="#FFF8EC"/>
 </svg>

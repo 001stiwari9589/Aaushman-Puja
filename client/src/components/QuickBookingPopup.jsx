@@ -187,7 +187,7 @@ export default function QuickBookingPopup() {
           animate={{ opacity: 1 }}
           exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-50 bg-[#3B1208]/70 backdrop-blur-sm flex items-end sm:items-center justify-center sm:p-4"
+          className="fixed inset-0 z-50 bg-[#3B1208]/70 backdrop-blur-sm flex items-center justify-center p-4 pb-20 sm:p-4"
           onClick={closeBookingPopup}
           role="dialog"
           aria-modal="true"
@@ -195,12 +195,12 @@ export default function QuickBookingPopup() {
         >
           <motion.div
             ref={dialogRef}
-            initial={shouldReduceMotion ? { opacity: 1 } : { y: 40, scale: 0.96, opacity: 0 }}
+            initial={shouldReduceMotion ? { opacity: 1 } : { y: 24, scale: 0.96, opacity: 0 }}
             animate={{ y: 0, scale: 1, opacity: 1 }}
-            exit={shouldReduceMotion ? { opacity: 0 } : { y: 40, scale: 0.96, opacity: 0 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { y: 24, scale: 0.96, opacity: 0 }}
             transition={{ type: 'spring', damping: 28, stiffness: 320 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full sm:max-w-[460px] max-h-[90dvh] overflow-y-auto bg-[#FFFFFF] border border-[#EBD5B0] rounded-t-2xl sm:rounded-2xl shadow-2xl p-5 sm:p-6 relative"
+            className="w-full max-w-[440px] max-h-[80dvh] overflow-y-auto bg-[#FFFFFF] border border-[#EBD5B0] rounded-2xl shadow-2xl p-5 sm:p-6 relative"
           >
             {/* Mobile drag handle */}
             <div className="sm:hidden w-12 h-1.5 bg-[#EBD5B0] rounded-full mx-auto mb-3" />

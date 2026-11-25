@@ -249,6 +249,7 @@ export function CustomSelect({
             )}
             {isOpen && platform === 'ios' && (
               <SelectSheetIOS
+                label={label}
                 options={filteredOptions}
                 value={value}
                 onSelect={handleSelect}

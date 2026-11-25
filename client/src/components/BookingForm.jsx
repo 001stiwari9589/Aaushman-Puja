@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { PUJAS_DATA } from '../data/pujas';
-import { Flame, Sparkles, CheckCircle2, AlertCircle, Loader2, Send, MessageCircle, Clock, PackageCheck, Calendar } from 'lucide-react';
+import { Flame, Sparkles, CheckCircle2, AlertCircle, Loader2, Send, MessageCircle, Clock, PackageCheck } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { PujaSelect } from './ui/CustomSelect';
 
@@ -78,7 +78,7 @@ export default function BookingForm({ preselectedPuja }) {
   };
 
   const validateAll = () => {
-    const requiredFields = ['fullName', 'mobile', 'puja', 'city', 'preferredDate'];
+    const requiredFields = ['fullName', 'mobile', 'puja', 'city'];
     const errors = {};
     requiredFields.forEach((field) => {
       const err = validateField(field, formData[field]);
@@ -158,15 +158,15 @@ export default function BookingForm({ preselectedPuja }) {
     : '';
 
   return (
-    <section id="booking" className="py-14 md:py-20 bg-[#FFF8EC] relative">
+    <section id="booking" className="py-10 md:py-16 bg-[#FFF8EC] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-10 md:mb-12">
-          <div className="font-sans text-xs sm:text-sm tracking-[0.16em] text-[#C8961E] font-bold uppercase mb-2 flex items-center justify-center gap-2">
+        <div className="text-center max-w-2xl mx-auto mb-7 md:mb-10">
+          <div className="font-sans text-xs sm:text-sm tracking-[0.16em] text-[#C8961E] font-bold uppercase mb-1.5 flex items-center justify-center gap-2">
             <Sparkles className="w-4 h-4" />
             <span>{t.booking.badge}</span>
           </div>
 
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-[#4A1C0C] mb-3">
+          <h2 className="font-heading text-2xl sm:text-4xl lg:text-5xl font-bold text-[#4A1C0C] mb-2">
             {t.booking.title}
           </h2>
 
@@ -174,14 +174,14 @@ export default function BookingForm({ preselectedPuja }) {
             <Flame className="w-5 h-5 text-[#C8961E]" />
           </div>
 
-          <p className="font-sans text-base text-[#5D4037] leading-relaxed">
+          <p className="font-sans text-sm sm:text-base text-[#5D4037] leading-relaxed">
             {t.booking.subtitle}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Simple Clean Booking Form */}
-          <div className="lg:col-span-7 bg-[#FFFFFF] border border-[#EBD5B0] rounded-2xl p-6 sm:p-8 shadow-[0_8px_24px_rgba(74,28,12,0.08)]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
+          {/* Compact Booking Form (1 field per row on laptop to match right card height) */}
+          <div className="lg:col-span-7 bg-[#FFFFFF] border border-[#EBD5B0] rounded-2xl p-4 sm:p-6 lg:p-7 shadow-[0_8px_24px_rgba(74,28,12,0.08)] flex flex-col justify-center">
             <form onSubmit={handleSubmit} noValidate>
               <AnimatePresence>
                 {errorMsg && (
@@ -189,17 +189,17 @@ export default function BookingForm({ preselectedPuja }) {
                     initial={{ opacity: 0, y: -8 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
-                    className="bg-red-50 border border-red-300 rounded-xl p-4 text-red-800 mb-6 flex items-center gap-3 text-sm"
+                    className="bg-red-50 border border-red-300 rounded-xl p-3 text-red-800 mb-4 flex items-center gap-2.5 text-xs sm:text-sm"
                   >
-                    <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
+                    <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
                     <span>{errorMsg}</span>
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+              <div className="grid grid-cols-1 gap-3.5 sm:gap-4 mb-5">
                 <div>
-                  <label className="vedic-label" htmlFor="fullName">
+                  <label className="vedic-label text-xs sm:text-sm" htmlFor="fullName">
                     {t.booking.fullName}
                   </label>
                   <input
@@ -218,7 +218,7 @@ export default function BookingForm({ preselectedPuja }) {
                 </div>
 
                 <div>
-                  <label className="vedic-label" htmlFor="mobile">
+                  <label className="vedic-label text-xs sm:text-sm" htmlFor="mobile">
                     {t.booking.mobile}
                   </label>
                   <div className="flex">
@@ -261,7 +261,7 @@ export default function BookingForm({ preselectedPuja }) {
                 />
 
                 <div>
-                  <label className="vedic-label" htmlFor="city">
+                  <label className="vedic-label text-xs sm:text-sm" htmlFor="city">
                     {language === 'hi' ? 'शहर / स्थान *' : 'City / Location *'}
                   </label>
                   <input
@@ -278,61 +278,30 @@ export default function BookingForm({ preselectedPuja }) {
                     <p className="text-red-600 text-xs mt-1 font-medium">{fieldErrors.city}</p>
                   )}
                 </div>
-
-                <div>
-                  <label className="vedic-label" htmlFor="preferredDate">
-                    {language === 'hi' ? 'पसंदीदा तिथि (वैकल्पिक)' : 'Preferred Date (Optional)'}
-                  </label>
-                  <input
-                    type="date"
-                    id="preferredDate"
-                    name="preferredDate"
-                    min={today}
-                    value={formData.preferredDate}
-                    onChange={handleChange}
-                    className={inputClass('preferredDate')}
-                  />
-                  {fieldErrors.preferredDate && (
-                    <p className="text-red-600 text-xs mt-1 font-medium">{fieldErrors.preferredDate}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="vedic-label" htmlFor="additionalRequirements">
-                    {t.booking.requirements}
-                  </label>
-                  <input
-                    type="text"
-                    id="additionalRequirements"
-                    name="additionalRequirements"
-                    value={formData.additionalRequirements}
-                    onChange={handleChange}
-                    placeholder={t.booking.requirementsPh}
-                    className="vedic-input"
-                  />
-                </div>
               </div>
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="btn-saffron-primary w-full py-3.5 text-base"
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    <span>{t.booking.submitting}</span>
-                  </>
-                ) : (
-                  <>
-                    <Flame className="w-4 h-4" />
-                    <span>{t.booking.submitBtn}</span>
-                    <Send className="w-4 h-4 ml-1" />
-                  </>
-                )}
-              </button>
+              <div className="flex justify-center">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="btn-saffron-primary px-7 py-2.5 text-sm min-h-[42px] whitespace-nowrap"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>{t.booking.submitting}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Flame className="w-4 h-4" />
+                      <span>{language === 'hi' ? 'पूजा बुक करें' : 'Book Puja'}</span>
+                      <Send className="w-3.5 h-3.5 ml-0.5" />
+                    </>
+                  )}
+                </button>
+              </div>
 
-              <p className="text-xs text-[#8D6E63] mt-3 text-center m-0">
+              <p className="text-[11px] sm:text-xs text-[#8D6E63] mt-2.5 text-center m-0">
                 {t.booking.privacyNote}
               </p>
             </form>
