@@ -259,36 +259,89 @@ const createTransporter = () => {
   return nodemailer.createTransport({ jsonTransport: true });
 };
 
+const SITE_BASE_URL = 'https://aaushman-puja.vercel.app';
+
+const wrapAaushmanEmail = (badgeText, heading, bodyHtml) => `
+  <div style="font-family:'Poppins',Arial,Helvetica,sans-serif;background:#FFF8EC;padding:18px 12px;color:#4A1C0C;">
+    <div style="max-width:680px;width:100%;margin:0 auto;background:#FFFFFF;border:2px solid #EBD5B0;border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(74,28,12,0.10);">
+      <!-- Branded Header with Aaushman Puja Logo -->
+      <div style="background:linear-gradient(135deg,#3B1208 0%,#5C1E0E 100%);padding:22px 26px;border-bottom:3px solid #C8961E;">
+        <table role="presentation" style="width:100%;border-collapse:collapse;">
+          <tr>
+            <td style="width:58px;vertical-align:middle;">
+              <img src="${SITE_BASE_URL}/favicon.svg" alt="Aaushman Puja" width="48" height="48" style="display:block;width:48px;height:48px;border-radius:50%;border:2px solid #C8961E;background:#FFF8EC;" />
+            </td>
+            <td style="vertical-align:middle;padding-left:12px;">
+              <div style="font-family:Georgia,serif;font-size:23px;font-weight:800;color:#FFF8EC;line-height:1.2;">Aaushman Puja</div>
+              <div style="font-size:11px;font-weight:700;letter-spacing:1.6px;color:#C8961E;text-transform:uppercase;margin-top:3px;">Pujan &amp; Sanskar • ${escapeHtml(badgeText)}</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Main Body -->
+      <div style="padding:28px 26px;">
+        <h2 style="margin:0 0 18px;font-family:Georgia,serif;font-size:22px;font-weight:700;color:#4A1C0C;line-height:1.3;">${escapeHtml(heading)}</h2>
+        ${bodyHtml}
+      </div>
+
+      <!-- Footer -->
+      <div style="background:#FFF8EC;padding:14px 26px;border-top:1px solid #EBD5B0;font-size:12px;color:#8D6E63;text-align:center;">
+        Sent from <a href="${SITE_BASE_URL}" style="color:#E65100;font-weight:700;text-decoration:none;">Aaushman Puja Website</a>
+      </div>
+    </div>
+  </div>`;
+
 const sendBookingNotification = async (booking) => {
   try {
     const transporter = createTransporter();
     const cleanPhone = booking.mobile ? booking.mobile.replace(/[^0-9]/g, '') : '';
-    const htmlContent = `
-      <div style="font-family:Poppins,Arial,sans-serif;background:#FFF8EC;padding:24px;color:#4A1C0C;">
-        <div style="max-width:620px;margin:0 auto;background:#FFFFFF;border:1px solid #EBD5B0;border-radius:12px;padding:28px;">
-          <h2 style="margin:0 0 8px;color:#4A1C0C;">Aaushman Puja — New Booking</h2>
-          <p style="margin:0 0 18px;color:#5D4037;font-size:14px;">Reference ID: <strong>#${escapeHtml(booking._id)}</strong></p>
-          <table style="width:100%;border-collapse:collapse;font-size:14px;">
-            <tr><td style="padding:8px 0;color:#8D6E63;width:38%;">Puja:</td><td style="padding:8px 0;font-weight:700;color:#E65100;">${escapeHtml(booking.puja)}</td></tr>
-            <tr><td style="padding:8px 0;color:#8D6E63;">Devotee Name:</td><td style="padding:8px 0;">${escapeHtml(booking.fullName)}</td></tr>
-            <tr><td style="padding:8px 0;color:#8D6E63;">Mobile:</td><td style="padding:8px 0;">${escapeHtml(booking.mobile)}</td></tr>
-            ${booking.email ? `<tr><td style="padding:8px 0;color:#8D6E63;">Email:</td><td style="padding:8px 0;">${escapeHtml(booking.email)}</td></tr>` : ''}
-            ${booking.preferredDate ? `<tr><td style="padding:8px 0;color:#8D6E63;">Preferred Date:</td><td style="padding:8px 0;font-weight:700;">${escapeHtml(booking.preferredDate)}</td></tr>` : ''}
-            <tr><td style="padding:8px 0;color:#8D6E63;">City & Address:</td><td style="padding:8px 0;">${escapeHtml(booking.city)}</td></tr>
-            <tr><td style="padding:8px 0;color:#8D6E63;">Language:</td><td style="padding:8px 0;">${escapeHtml(booking.language)}</td></tr>
-          </table>
-          <div style="margin-top:20px;">
-            <a href="tel:${cleanPhone}" style="display:inline-block;background:#E65100;color:#FFFFFF;padding:10px 18px;border-radius:8px;text-decoration:none;font-weight:600;margin-right:8px;">Call Devotee</a>
-            ${cleanPhone ? `<a href="https://wa.me/91${cleanPhone.slice(-10)}" style="display:inline-block;background:#25D366;color:#FFFFFF;padding:10px 18px;border-radius:8px;text-decoration:none;font-weight:600;">WhatsApp</a>` : ''}
-          </div>
-        </div>
+    const bodyHtml = `
+      <div style="background:#FFF8EC;border:1px solid #EBD5B0;border-radius:14px;padding:18px 20px;margin-bottom:22px;">
+        <table role="presentation" style="width:100%;border-collapse:collapse;font-size:16px;line-height:1.6;">
+          <tr>
+            <td style="padding:10px 8px 10px 0;color:#8D6E63;font-weight:600;width:36%;border-bottom:1px solid #F0DFC2;">Puja:</td>
+            <td style="padding:10px 0;font-weight:800;font-size:17px;color:#E65100;border-bottom:1px solid #F0DFC2;">${escapeHtml(booking.puja)}</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 8px 10px 0;color:#8D6E63;font-weight:600;border-bottom:1px solid #F0DFC2;">Devotee Name:</td>
+            <td style="padding:10px 0;font-weight:700;color:#4A1C0C;border-bottom:1px solid #F0DFC2;">${escapeHtml(booking.fullName)}</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 8px 10px 0;color:#8D6E63;font-weight:600;border-bottom:1px solid #F0DFC2;">Mobile:</td>
+            <td style="padding:10px 0;font-weight:700;color:#4A1C0C;border-bottom:1px solid #F0DFC2;">${escapeHtml(booking.mobile)}</td>
+          </tr>
+          ${booking.email ? `
+          <tr>
+            <td style="padding:10px 8px 10px 0;color:#8D6E63;font-weight:600;border-bottom:1px solid #F0DFC2;">Email:</td>
+            <td style="padding:10px 0;color:#4A1C0C;border-bottom:1px solid #F0DFC2;">${escapeHtml(booking.email)}</td>
+          </tr>` : ''}
+          ${booking.preferredDate ? `
+          <tr>
+            <td style="padding:10px 8px 10px 0;color:#8D6E63;font-weight:600;border-bottom:1px solid #F0DFC2;">Preferred Date:</td>
+            <td style="padding:10px 0;font-weight:700;color:#4A1C0C;border-bottom:1px solid #F0DFC2;">${escapeHtml(booking.preferredDate)}</td>
+          </tr>` : ''}
+          <tr>
+            <td style="padding:10px 8px 10px 0;color:#8D6E63;font-weight:600;border-bottom:1px solid #F0DFC2;">City / Location:</td>
+            <td style="padding:10px 0;font-weight:700;color:#4A1C0C;border-bottom:1px solid #F0DFC2;">${escapeHtml(booking.city)}</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 8px 10px 0;color:#8D6E63;font-weight:600;">Language:</td>
+            <td style="padding:10px 0;color:#4A1C0C;">${escapeHtml(booking.language)}</td>
+          </tr>
+        </table>
+      </div>
+      <div style="text-align:left;">
+        <a href="tel:${cleanPhone}" style="display:inline-block;background:#E65100;color:#FFFFFF;padding:13px 24px;border-radius:999px;text-decoration:none;font-weight:700;font-size:15px;margin-right:10px;margin-bottom:8px;">Call Devotee</a>
+        ${cleanPhone ? `<a href="https://wa.me/91${cleanPhone.slice(-10)}" style="display:inline-block;background:#25D366;color:#FFFFFF;padding:13px 24px;border-radius:999px;text-decoration:none;font-weight:700;font-size:15px;margin-bottom:8px;">WhatsApp</a>` : ''}
       </div>`;
+
     await transporter.sendMail({
       from: process.env.SMTP_FROM || `"Aaushman Puja" <${ADMIN_EMAIL}>`,
       to: ADMIN_EMAIL,
       ...(booking.email ? { cc: booking.email } : {}),
       subject: `[Aaushman Puja] New Booking: ${booking.puja} - ${booking.fullName}`,
-      html: htmlContent,
+      html: wrapAaushmanEmail('New Puja Booking', `New Puja Booking: ${booking.puja}`, bodyHtml),
     });
   } catch (err) {
     console.error('Booking email error:', err.message);
@@ -298,22 +351,22 @@ const sendBookingNotification = async (booking) => {
 const sendContactNotification = async ({ name, email, phone, message }) => {
   try {
     const transporter = createTransporter();
-    const htmlContent = `
-      <div style="font-family:Poppins,Arial,sans-serif;background:#FFF8EC;padding:24px;color:#4A1C0C;">
-        <div style="max-width:600px;margin:0 auto;background:#FFFFFF;border:1px solid #EBD5B0;border-radius:12px;padding:28px;">
-          <h2 style="margin:0 0 12px;color:#4A1C0C;">New Contact Inquiry</h2>
-          <p><strong>Name:</strong> ${escapeHtml(name)}</p>
-          <p><strong>Phone:</strong> ${escapeHtml(phone)}</p>
-          <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-          <p><strong>Message:</strong><br/>${escapeHtml(message)}</p>
-        </div>
-      </div>`;
+    const cleanPhone = phone ? phone.replace(/[^0-9]/g, '') : '';
+    const bodyHtml = `
+      <div style="background:#FFF8EC;border:1px solid #EBD5B0;border-radius:14px;padding:18px 20px;font-size:16px;line-height:1.7;margin-bottom:20px;">
+        <p style="margin:0 0 10px;"><strong style="color:#8D6E63;">Name:</strong> <span style="color:#4A1C0C;font-weight:700;">${escapeHtml(name)}</span></p>
+        <p style="margin:0 0 10px;"><strong style="color:#8D6E63;">Phone:</strong> <span style="color:#4A1C0C;font-weight:700;">${escapeHtml(phone)}</span></p>
+        <p style="margin:0 0 10px;"><strong style="color:#8D6E63;">Email:</strong> <span style="color:#4A1C0C;">${escapeHtml(email)}</span></p>
+        <p style="margin:0;"><strong style="color:#8D6E63;">Message:</strong><br/><span style="color:#4A1C0C;">${escapeHtml(message)}</span></p>
+      </div>
+      ${cleanPhone ? `<a href="tel:${cleanPhone}" style="display:inline-block;background:#E65100;color:#FFFFFF;padding:13px 24px;border-radius:999px;text-decoration:none;font-weight:700;font-size:15px;margin-right:10px;">Call Now</a><a href="https://wa.me/91${cleanPhone.slice(-10)}" style="display:inline-block;background:#25D366;color:#FFFFFF;padding:13px 24px;border-radius:999px;text-decoration:none;font-weight:700;font-size:15px;">WhatsApp</a>` : ''}`;
+
     await transporter.sendMail({
-      from: process.env.SMTP_FROM || `"Divine Vedic Puja Sansthan" <${ADMIN_EMAIL}>`,
+      from: process.env.SMTP_FROM || `"Aaushman Puja" <${ADMIN_EMAIL}>`,
       to: ADMIN_EMAIL,
       replyTo: email,
-      subject: `[Divine Vedic Puja] Contact Inquiry from ${name}`,
-      html: htmlContent,
+      subject: `[Aaushman Puja] Contact Inquiry from ${name}`,
+      html: wrapAaushmanEmail('Contact Inquiry', `Contact Inquiry from ${name}`, bodyHtml),
     });
   } catch (err) {
     console.error('Contact email error:', err.message);
@@ -323,26 +376,23 @@ const sendContactNotification = async ({ name, email, phone, message }) => {
 const sendBrahminNotification = async (brahmin) => {
   try {
     const transporter = createTransporter();
-    const htmlContent = `
-      <div style="font-family:Poppins,Arial,sans-serif;background:#FFF8EC;padding:24px;color:#4A1C0C;">
-        <div style="max-width:600px;margin:0 auto;background:#FFFFFF;border:1px solid #EBD5B0;border-radius:12px;padding:28px;">
-          <h2 style="margin:0 0 12px;color:#4A1C0C;">New Brahmin / Pandit Registration</h2>
-          <p><strong>Name:</strong> ${escapeHtml(brahmin.fullName)}</p>
-          <p><strong>Mobile:</strong> ${escapeHtml(brahmin.mobile)}</p>
-          <p><strong>Email:</strong> ${escapeHtml(brahmin.email)}</p>
-          <p><strong>City:</strong> ${escapeHtml(brahmin.city)}</p>
-          <p><strong>Experience:</strong> ${escapeHtml(brahmin.experience)}</p>
-          <p><strong>Qualification:</strong> ${escapeHtml(brahmin.qualification)}</p>
-          <p><strong>Languages:</strong> ${escapeHtml(brahmin.languages)}</p>
-          ${brahmin.gotra ? `<p><strong>Gotra:</strong> ${escapeHtml(brahmin.gotra)}</p>` : ''}
-        </div>
+    const bodyHtml = `
+      <div style="background:#FFF8EC;border:1px solid #EBD5B0;border-radius:14px;padding:18px 20px;font-size:16px;line-height:1.7;">
+        <p style="margin:0 0 8px;"><strong>Name:</strong> ${escapeHtml(brahmin.fullName)}</p>
+        <p style="margin:0 0 8px;"><strong>Mobile:</strong> ${escapeHtml(brahmin.mobile)}</p>
+        <p style="margin:0 0 8px;"><strong>Email:</strong> ${escapeHtml(brahmin.email)}</p>
+        <p style="margin:0 0 8px;"><strong>City:</strong> ${escapeHtml(brahmin.city)}</p>
+        <p style="margin:0 0 8px;"><strong>Experience:</strong> ${escapeHtml(brahmin.experience)}</p>
+        <p style="margin:0 0 8px;"><strong>Qualification:</strong> ${escapeHtml(brahmin.qualification)}</p>
+        <p style="margin:0;"><strong>Languages:</strong> ${escapeHtml(brahmin.languages)}</p>
+        ${brahmin.gotra ? `<p style="margin:8px 0 0;"><strong>Gotra:</strong> ${escapeHtml(brahmin.gotra)}</p>` : ''}
       </div>`;
     await transporter.sendMail({
-      from: process.env.SMTP_FROM || `"Divine Vedic Puja Sansthan" <${ADMIN_EMAIL}>`,
+      from: process.env.SMTP_FROM || `"Aaushman Puja" <${ADMIN_EMAIL}>`,
       to: ADMIN_EMAIL,
       replyTo: brahmin.email,
-      subject: `[Divine Vedic Puja] New Brahmin Registration: ${brahmin.fullName}`,
-      html: htmlContent,
+      subject: `[Aaushman Puja] New Brahmin Registration: ${brahmin.fullName}`,
+      html: wrapAaushmanEmail('Acharya Registration', `New Brahmin Registration: ${brahmin.fullName}`, bodyHtml),
     });
   } catch (err) {
     console.error('Brahmin email error:', err.message);
