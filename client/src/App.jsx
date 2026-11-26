@@ -21,13 +21,7 @@ function MainAppContent() {
   const [isAdminRoute, setIsAdminRoute] = useState(
     () => window.location.pathname === '/admin'
   );
-  const [loading, setLoading] = useState(() => {
-    try {
-      return !sessionStorage.getItem('divine_vedic_visited');
-    } catch {
-      return false;
-    }
-  });
+  const [loading, setLoading] = useState(true);
   const [isBrahminModalOpen, setIsBrahminModalOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [isMobileView, setIsMobileView] = useState(() =>

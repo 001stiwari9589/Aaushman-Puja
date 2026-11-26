@@ -241,9 +241,3 @@
 .animate-vibrate {
   animation: vedic-vibrate 2.8s ease-in-out infinite;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-vibrate {
-    animation: none;
-  }
-}

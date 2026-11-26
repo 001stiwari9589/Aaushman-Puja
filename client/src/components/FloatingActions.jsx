@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Phone, MessageCircle } from 'lucide-react';
-import { useReducedMotion } from 'framer-motion';
 
 function useHoldDrag() {
   const [pos, setPos] = useState({ x: 0, y: 0 });
@@ -64,7 +63,6 @@ function useHoldDrag() {
 }
 
 export default function FloatingActions() {
-  const shouldReduceMotion = useReducedMotion();
   const callDrag = useHoldDrag();
   const waDrag = useHoldDrag();
 
@@ -83,9 +81,7 @@ export default function FloatingActions() {
           <a
             href="tel:+919589018011"
             aria-label="Call Pandit Ji"
-            className={`pointer-events-auto min-w-[138px] h-11 px-5 rounded-full bg-[#E65100] hover:bg-[#BF360C] text-white font-sans font-bold text-sm flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(230,81,0,0.45)] border-2 border-white no-underline active:scale-95 transition-transform ${
-              shouldReduceMotion ? '' : 'animate-vibrate'
-            }`}
+            className="pointer-events-auto min-w-[138px] h-11 px-5 rounded-full bg-[#E65100] hover:bg-[#BF360C] text-white font-sans font-bold text-sm flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(230,81,0,0.45)] border-2 border-white no-underline active:scale-95 transition-transform animate-vibrate"
           >
             <Phone className="w-4 h-4 text-white shrink-0" />
             <span>Call Now</span>
@@ -96,10 +92,8 @@ export default function FloatingActions() {
             target="_blank"
             rel="noreferrer"
             aria-label="Chat on WhatsApp"
-            className={`pointer-events-auto min-w-[138px] h-11 px-5 rounded-full bg-[#25D366] hover:opacity-95 text-white font-sans font-bold text-sm flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(37,211,102,0.45)] border-2 border-white no-underline active:scale-95 transition-transform ${
-              shouldReduceMotion ? '' : 'animate-vibrate'
-            }`}
-            style={shouldReduceMotion ? undefined : { animationDelay: '0.4s' }}
+            className="pointer-events-auto min-w-[138px] h-11 px-5 rounded-full bg-[#25D366] hover:opacity-95 text-white font-sans font-bold text-sm flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(37,211,102,0.45)] border-2 border-white no-underline active:scale-95 transition-transform animate-vibrate"
+            style={{ animationDelay: '0.4s' }}
           >
             <MessageCircle className="w-5 h-5 text-white shrink-0" />
             <span>WhatsApp</span>
@@ -127,7 +121,7 @@ export default function FloatingActions() {
             }
           }}
           className={`w-14 h-14 rounded-full bg-[#E65100] hover:bg-[#BF360C] text-white flex items-center justify-center shadow-[0_6px_20px_rgba(230,81,0,0.45)] border-2 border-white transition-transform hover:scale-105 cursor-inherit ${
-            shouldReduceMotion || callDrag.isDragging ? '' : 'animate-vibrate'
+            callDrag.isDragging ? '' : 'animate-vibrate'
           }`}
         >
           <Phone className="w-6 h-6 text-white pointer-events-none" />
@@ -154,9 +148,9 @@ export default function FloatingActions() {
             }
           }}
           className={`w-14 h-14 rounded-full bg-[#25D366] hover:opacity-95 text-white flex items-center justify-center shadow-[0_6px_20px_rgba(37,211,102,0.45)] border-2 border-white transition-transform hover:scale-105 cursor-inherit ${
-            shouldReduceMotion || waDrag.isDragging ? '' : 'animate-vibrate'
+            waDrag.isDragging ? '' : 'animate-vibrate'
           }`}
-          style={shouldReduceMotion || waDrag.isDragging ? undefined : { animationDelay: '0.4s' }}
+          style={waDrag.isDragging ? undefined : { animationDelay: '0.4s' }}
         >
           <MessageCircle className="w-7 h-7 text-white pointer-events-none" />
         </button>
