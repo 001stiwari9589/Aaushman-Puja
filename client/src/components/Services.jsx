@@ -132,7 +132,7 @@ export default function Services() {
   };
 
   return (
-    <section id="services" className="py-14 md:py-20 bg-[#FFF8EC] relative">
+    <section id="services" className="py-14 md:py-20 bg-[#FFF8EC] relative scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -191,7 +191,8 @@ export default function Services() {
 
                 <div
                   ref={row.ref}
-                  className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2 scroll-smooth no-scrollbar px-1"
+                  style={{ touchAction: 'pan-x pan-y' }}
+                  className="flex gap-4 overflow-x-auto snap-x snap-proximity pb-2 scroll-smooth no-scrollbar px-1"
                 >
                   {row.items.map((puja, idx) =>
                     renderPujaCard(puja, idx, 'w-[76vw] sm:w-[290px] shrink-0 snap-start')

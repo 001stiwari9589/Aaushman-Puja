@@ -10,14 +10,14 @@ export default function Preloader({ onComplete }) {
     import('./Testimonials').catch(() => {});
     import('./BrahminModal').catch(() => {});
 
-    // Smooth ~4.5 second preloader so Chakra + Om animation is clearly visible
+    // Smooth ~2.6 second preloader so Chakra + Om animation is clearly visible without waiting too long
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
           return 100;
         }
-        return prev + 2;
+        return prev + 4;
       });
     }, 85);
 
@@ -28,7 +28,7 @@ export default function Preloader({ onComplete }) {
         // ignore storage errors
       }
       onComplete?.();
-    }, 4500);
+    }, 2600);
 
     return () => {
       clearInterval(interval);
