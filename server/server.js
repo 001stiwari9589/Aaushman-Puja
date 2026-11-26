@@ -109,6 +109,8 @@ const bookingSchemaZod = z.object({
   language: z.string().trim().max(60).optional().default('English & Hindi'),
   gotra: z.string().trim().max(80).optional().default(''),
   additionalRequirements: z.string().trim().max(1000).optional().default(''),
+  assignedPanditId: z.string().trim().max(120).optional().default(''),
+  assignedPanditName: z.string().trim().max(120).optional().default(''),
 });
 
 const contactSchemaZod = z.object({
@@ -212,6 +214,8 @@ const bookingSchema = new mongoose.Schema({
   language: { type: String, default: 'English & Hindi' },
   gotra: { type: String, default: '' },
   additionalRequirements: { type: String, default: '' },
+  assignedPanditId: { type: String, default: '' },
+  assignedPanditName: { type: String, default: '' },
   status: { type: String, default: 'New', enum: ['New', 'Contacted', 'Confirmed', 'Completed', 'Cancelled'] },
   createdAt: { type: Date, default: Date.now },
 });
@@ -260,6 +264,15 @@ const createTransporter = () => {
 };
 
 const SITE_BASE_URL = 'https://aaushman-puja.vercel.app';
+const APPROVAL_SECRET = JWT_SECRET || 'aaushman_puja_approval_hmac_secret';
+
+const generateApprovalToken = (id) =>
+  crypto.createHmac('sha256', APPROVAL_SECRET).update(String(id)).digest('hex');
+
+const verifyApprovalToken = (id, token) => {
+  const expected = generateApprovalToken(id);
+  return safeCompare(expected, String(token || ''));
+};
 
 const wrapAaushmanEmail = (badgeText, heading, bodyHtml) => `
   <div style="font-family:'Poppins',Arial,Helvetica,sans-serif;background:#FFF8EC;padding:18px 12px;color:#4A1C0C;">
@@ -292,7 +305,7 @@ const wrapAaushmanEmail = (badgeText, heading, bodyHtml) => `
     </div>
   </div>`;
 
-const sendBookingNotification = async (booking) => {
+const sendBookingNotification = async (booking, panditEmail = '') => {
   try {
     const transporter = createTransporter();
     const cleanPhone = booking.mobile ? booking.mobile.replace(/[^0-9]/g, '') : '';
@@ -303,6 +316,11 @@ const sendBookingNotification = async (booking) => {
             <td style="padding:10px 8px 10px 0;color:#8D6E63;font-weight:600;width:36%;border-bottom:1px solid #F0DFC2;">Puja:</td>
             <td style="padding:10px 0;font-weight:800;font-size:17px;color:#E65100;border-bottom:1px solid #F0DFC2;">${escapeHtml(booking.puja)}</td>
           </tr>
+          ${booking.assignedPanditName ? `
+          <tr>
+            <td style="padding:10px 8px 10px 0;color:#8D6E63;font-weight:600;border-bottom:1px solid #F0DFC2;">Assigned Acharya:</td>
+            <td style="padding:10px 0;font-weight:800;color:#4A1C0C;border-bottom:1px solid #F0DFC2;">${escapeHtml(booking.assignedPanditName)}</td>
+          </tr>` : ''}
           <tr>
             <td style="padding:10px 8px 10px 0;color:#8D6E63;font-weight:600;border-bottom:1px solid #F0DFC2;">Devotee Name:</td>
             <td style="padding:10px 0;font-weight:700;color:#4A1C0C;border-bottom:1px solid #F0DFC2;">${escapeHtml(booking.fullName)}</td>
@@ -336,9 +354,14 @@ const sendBookingNotification = async (booking) => {
         ${cleanPhone ? `<a href="https://wa.me/91${cleanPhone.slice(-10)}" style="display:inline-block;background:#25D366;color:#FFFFFF;padding:13px 24px;border-radius:999px;text-decoration:none;font-weight:700;font-size:15px;margin-bottom:8px;">WhatsApp</a>` : ''}
       </div>`;
 
+    const recipients = [ADMIN_EMAIL];
+    if (panditEmail && panditEmail.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+      recipients.push(panditEmail);
+    }
+
     await transporter.sendMail({
       from: process.env.SMTP_FROM || `"Aaushman Puja" <${ADMIN_EMAIL}>`,
-      to: ADMIN_EMAIL,
+      to: recipients.join(', '),
       ...(booking.email ? { cc: booking.email } : {}),
       subject: `[Aaushman Puja] New Booking: ${booking.puja} - ${booking.fullName}`,
       html: wrapAaushmanEmail('New Puja Booking', `New Puja Booking: ${booking.puja}`, bodyHtml),
@@ -376,23 +399,33 @@ const sendContactNotification = async ({ name, email, phone, message }) => {
 const sendBrahminNotification = async (brahmin) => {
   try {
     const transporter = createTransporter();
+    const idStr = String(brahmin._id);
+    const token = generateApprovalToken(idStr);
+    const approveUrl = `${SITE_BASE_URL}/api/brahmins/action?id=${encodeURIComponent(idStr)}&decision=approve&token=${encodeURIComponent(token)}`;
+    const rejectUrl = `${SITE_BASE_URL}/api/brahmins/action?id=${encodeURIComponent(idStr)}&decision=reject&token=${encodeURIComponent(token)}`;
+
     const bodyHtml = `
-      <div style="background:#FFF8EC;border:1px solid #EBD5B0;border-radius:14px;padding:18px 20px;font-size:16px;line-height:1.7;">
+      <div style="background:#FFF8EC;border:1px solid #EBD5B0;border-radius:14px;padding:18px 20px;font-size:16px;line-height:1.7;margin-bottom:22px;">
         <p style="margin:0 0 8px;"><strong>Name:</strong> ${escapeHtml(brahmin.fullName)}</p>
         <p style="margin:0 0 8px;"><strong>Mobile:</strong> ${escapeHtml(brahmin.mobile)}</p>
         <p style="margin:0 0 8px;"><strong>Email:</strong> ${escapeHtml(brahmin.email)}</p>
         <p style="margin:0 0 8px;"><strong>City:</strong> ${escapeHtml(brahmin.city)}</p>
         <p style="margin:0 0 8px;"><strong>Experience:</strong> ${escapeHtml(brahmin.experience)}</p>
-        <p style="margin:0 0 8px;"><strong>Qualification:</strong> ${escapeHtml(brahmin.qualification)}</p>
+        <p style="margin:0 0 8px;"><strong>Specialization / Qualification:</strong> ${escapeHtml(brahmin.qualification)}</p>
         <p style="margin:0;"><strong>Languages:</strong> ${escapeHtml(brahmin.languages)}</p>
         ${brahmin.gotra ? `<p style="margin:8px 0 0;"><strong>Gotra:</strong> ${escapeHtml(brahmin.gotra)}</p>` : ''}
-      </div>`;
+      </div>
+      <div style="text-align:left;">
+        <a href="${approveUrl}" style="display:inline-block;background:#16A34A;color:#FFFFFF;padding:13px 24px;border-radius:999px;text-decoration:none;font-weight:700;font-size:15px;margin-right:10px;margin-bottom:8px;">✓ Approve Pandit</a>
+        <a href="${rejectUrl}" style="display:inline-block;background:#DC2626;color:#FFFFFF;padding:13px 24px;border-radius:999px;text-decoration:none;font-weight:700;font-size:15px;margin-bottom:8px;">✕ Reject Application</a>
+      </div>
+      <p style="font-size:13px;color:#8D6E63;margin-top:12px;">Approving will display this Acharya on the Aaushman Puja website and route their bookings to ${escapeHtml(brahmin.email)}.</p>`;
     await transporter.sendMail({
       from: process.env.SMTP_FROM || `"Aaushman Puja" <${ADMIN_EMAIL}>`,
       to: ADMIN_EMAIL,
       replyTo: brahmin.email,
-      subject: `[Aaushman Puja] New Brahmin Registration: ${brahmin.fullName}`,
-      html: wrapAaushmanEmail('Acharya Registration', `New Brahmin Registration: ${brahmin.fullName}`, bodyHtml),
+      subject: `[Aaushman Puja] Approve / Reject Pandit: ${brahmin.fullName}`,
+      html: wrapAaushmanEmail('Acharya Approval Request', `New Acharya Application: ${brahmin.fullName}`, bodyHtml),
     });
   } catch (err) {
     console.error('Brahmin email error:', err.message);
@@ -513,7 +546,20 @@ app.post('/api/bookings', formLimiter, async (req, res) => {
       saveLocalStore();
     }
 
-    await sendBookingNotification(savedBooking);
+    let panditEmail = '';
+    if (input.assignedPanditId) {
+      if (isMongoConnected && mongoose.Types.ObjectId.isValid(input.assignedPanditId)) {
+        const panditDoc = await BrahminModel.findOne({ _id: input.assignedPanditId, status: 'Approved' });
+        if (panditDoc?.email) panditEmail = panditDoc.email;
+      } else {
+        const panditItem = localStore.brahmins.find(
+          (b) => String(b._id) === String(input.assignedPanditId) && b.status === 'Approved'
+        );
+        if (panditItem?.email) panditEmail = panditItem.email;
+      }
+    }
+
+    await sendBookingNotification(savedBooking, panditEmail);
 
     return res.status(201).json({
       success: true,
@@ -648,6 +694,87 @@ app.post('/api/brahmins', formLimiter, async (req, res) => {
   } catch (error) {
     console.error('Brahmin register error:', error.message);
     return res.status(500).json({ success: false, message: 'Error processing Brahmin application' });
+  }
+});
+
+// Public Approved Brahmins List (strips phone/email for privacy)
+app.get('/api/brahmins/public', async (req, res) => {
+  try {
+    let approved = [];
+    if (isMongoConnected) {
+      approved = await BrahminModel.find({ status: 'Approved' }).sort({ createdAt: -1 });
+    } else {
+      approved = localStore.brahmins.filter((b) => b.status === 'Approved');
+    }
+    const safeList = approved.map((b) => ({
+      id: String(b._id),
+      name: b.fullName,
+      specialization: b.qualification,
+      experience: b.experience,
+      city: b.city,
+      languages: b.languages,
+      defaultPuja: '',
+    }));
+    return res.json({ success: true, brahmins: safeList });
+  } catch {
+    return res.status(500).json({ success: false, message: 'Failed to load approved Acharyas.' });
+  }
+});
+
+// One-Click Email Approve / Reject Handler (Signed HMAC Token)
+app.get('/api/brahmins/action', async (req, res) => {
+  const { id, decision, token } = req.query;
+  if (!id || !decision || !token || !['approve', 'reject'].includes(String(decision))) {
+    return res.status(400).send('<h2>Invalid approval link.</h2>');
+  }
+  if (!verifyApprovalToken(String(id), String(token))) {
+    return res.status(403).send('<h2>Invalid or expired security token.</h2>');
+  }
+
+  const newStatus = decision === 'approve' ? 'Approved' : 'Rejected';
+  let foundName = '';
+
+  try {
+    if (isMongoConnected && mongoose.Types.ObjectId.isValid(String(id))) {
+      const updated = await BrahminModel.findByIdAndUpdate(
+        String(id),
+        { status: newStatus },
+        { new: true }
+      );
+      if (updated) foundName = updated.fullName;
+    } else {
+      const idx = localStore.brahmins.findIndex((b) => String(b._id) === String(id));
+      if (idx !== -1) {
+        localStore.brahmins[idx].status = newStatus;
+        foundName = localStore.brahmins[idx].fullName;
+        saveLocalStore();
+      }
+    }
+
+    if (!foundName) {
+      return res.status(404).send('<h2>Acharya application not found (server storage may have reset if MongoDB is not connected).</h2>');
+    }
+
+    const isApproved = newStatus === 'Approved';
+    return res.send(`
+      <!doctype html>
+      <html>
+        <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aaushman Puja — ${newStatus}</title></head>
+        <body style="font-family:Arial,sans-serif;background:#FFF8EC;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:20px;">
+          <div style="max-width:460px;width:100%;background:#FFFFFF;border:2px solid #EBD5B0;border-radius:18px;padding:32px;text-align:center;box-shadow:0 10px 30px rgba(74,28,12,0.1);">
+            <div style="font-size:44px;margin-bottom:10px;">${isApproved ? '✅' : '❌'}</div>
+            <h1 style="margin:0 0 10px;color:#4A1C0C;font-size:24px;">Acharya ${newStatus}!</h1>
+            <p style="color:#5D4037;font-size:15px;line-height:1.6;margin:0 0 22px;">
+              <strong>${escapeHtml(foundName)}</strong> has been marked as <strong>${newStatus}</strong>.
+              ${isApproved ? 'They will now appear on the Aaushman Puja website and receive their booking emails.' : 'They will NOT be displayed on the website.'}
+            </p>
+            <a href="${SITE_BASE_URL}" style="display:inline-block;background:#E65100;color:#FFFFFF;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;font-size:14px;">Visit Aaushman Puja</a>
+          </div>
+        </body>
+      </html>`);
+  } catch (err) {
+    console.error('Brahmin action error:', err.message);
+    return res.status(500).send('<h2>Error updating Acharya status.</h2>');
   }
 });
 

@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Services from './components/Services';
 import About from './components/About';
+import PanditsSection from './components/PanditsSection';
 import BookingForm from './components/BookingForm';
 import FAQ from './components/FAQ';
 import Contact from './components/Contact';
@@ -117,6 +118,7 @@ function MainAppContent() {
               <>
                 <Hero />
                 <Services />
+                <PanditsSection onOpenBrahminModal={() => setIsBrahminModalOpen(true)} />
                 <BookingForm preselectedPuja={pagePreselectedPuja} />
                 <Suspense fallback={<div className="py-12 text-center text-[#8D6E63] font-sans">Loading reviews...</div>}>
                   <Testimonials />
@@ -124,6 +126,9 @@ function MainAppContent() {
               </>
             )}
             {mobilePage === 'services' && <Services />}
+            {mobilePage === 'pandits' && (
+              <PanditsSection onOpenBrahminModal={() => setIsBrahminModalOpen(true)} />
+            )}
             {mobilePage === 'about' && <About />}
             {mobilePage === 'booking' && <BookingForm preselectedPuja={pagePreselectedPuja} />}
             {mobilePage === 'testimonials' && (
@@ -139,6 +144,7 @@ function MainAppContent() {
             <Hero />
             <Services />
             <About />
+            <PanditsSection onOpenBrahminModal={() => setIsBrahminModalOpen(true)} />
             <BookingForm preselectedPuja={pagePreselectedPuja} />
 
             <Suspense fallback={<div className="py-16 text-center text-[#8D6E63] font-sans">Loading reviews...</div>}>
