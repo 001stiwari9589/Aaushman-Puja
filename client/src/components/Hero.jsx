@@ -71,7 +71,7 @@ export default function Hero() {
     <section
       ref={heroSectionRef}
       id="hero"
-      className="relative min-h-[auto] lg:min-h-[68dvh] w-full flex items-center overflow-hidden bg-[#3B1208] pt-24 pb-10 lg:pt-32 lg:pb-14"
+      className="relative min-h-[auto] lg:min-h-[68dvh] w-full flex items-center overflow-hidden bg-[#120A06] pt-24 pb-10 lg:pt-32 lg:pb-14"
     >
       {/* Hero Background HD Video with WebP/JPG fallback */}
       {posterOnly || bgVideoFailed ? (
@@ -101,12 +101,12 @@ export default function Hero() {
         </video>
       )}
 
-      {/* Maroon Gradient Overlay (#3B1208) */}
+      {/* Natural Dark Cinematic Overlay (keeps HD background crisp & white text readable) */}
       <div
         className="absolute inset-0 z-[1]"
         style={{
           background:
-            'linear-gradient(105deg, rgba(59, 18, 8, 0.90) 0%, rgba(59, 18, 8, 0.80) 55%, rgba(59, 18, 8, 0.68) 100%)',
+            'linear-gradient(105deg, rgba(12, 8, 5, 0.58) 0%, rgba(12, 8, 5, 0.44) 55%, rgba(12, 8, 5, 0.30) 100%)',
         }}
       />
 
