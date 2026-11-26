@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import confetti from 'canvas-confetti';
+import { triggerBookingCelebration } from '../utils/celebrate';
 import { PUJAS_DATA } from '../data/pujas';
 import { Flame, Sparkles, CheckCircle2, AlertCircle, Loader2, Send, MessageCircle, Clock, PackageCheck } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
@@ -108,17 +108,7 @@ export default function BookingForm({ preselectedPuja }) {
   };
 
   const triggerCelebration = () => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    try {
-      confetti({
-        particleCount: 65,
-        spread: 65,
-        origin: { y: 0.6 },
-        colors: ['#E65100', '#C8961E', '#FBEBD0', '#4A1C0C'],
-      });
-    } catch {
-      // safe fallback
-    }
+    triggerBookingCelebration();
   };
 
   const handleSubmit = async (e) => {

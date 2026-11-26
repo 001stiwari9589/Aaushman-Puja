@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import confetti from 'canvas-confetti';
+import { triggerBookingCelebration } from '../utils/celebrate';
 import { X, Flame, CheckCircle2, AlertCircle, Loader2, MessageCircle, RotateCcw, Sparkles } from 'lucide-react';
 import { PUJAS_DATA } from '../data/pujas';
 import { useBookingPopup } from '../context/BookingPopupContext';
@@ -163,34 +163,7 @@ export default function QuickBookingPopup() {
 
       if (response.ok && data.success) {
         setSuccessData(data.booking);
-        if (!shouldReduceMotion) {
-          try {
-            confetti({
-              particleCount: 80,
-              spread: 70,
-              origin: { y: 0.55 },
-              colors: ['#E65100', '#C8961E', '#FFF1D6', '#25D366'],
-            });
-            setTimeout(() => {
-              confetti({
-                particleCount: 45,
-                angle: 60,
-                spread: 55,
-                origin: { x: 0.15, y: 0.6 },
-                colors: ['#E65100', '#C8961E', '#FFF1D6'],
-              });
-              confetti({
-                particleCount: 45,
-                angle: 120,
-                spread: 55,
-                origin: { x: 0.85, y: 0.6 },
-                colors: ['#E65100', '#C8961E', '#FFF1D6'],
-              });
-            }, 220);
-          } catch {
-            // safe fallback
-          }
-        }
+        triggerBookingCelebration();
       } else {
         setErrorMsg(data.message || 'Unable to submit booking. Please try again.');
       }
