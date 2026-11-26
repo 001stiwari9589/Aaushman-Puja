@@ -6,14 +6,18 @@ export default function Preloader({ onComplete }) {
   const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
-    // Max 1.2 seconds preloader on first visit per session
+    // Preload lazy route/modal chunks while the 4.5s sacred preloader runs
+    import('./Testimonials').catch(() => {});
+    import('./BrahminModal').catch(() => {});
+
+    // Smooth ~4.5 second preloader so Chakra + Om animation is clearly visible
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
           return 100;
         }
-        return prev + 10;
+        return prev + 2;
       });
     }, 85);
 
@@ -24,7 +28,7 @@ export default function Preloader({ onComplete }) {
         // ignore storage errors
       }
       onComplete?.();
-    }, 1150);
+    }, 4500);
 
     return () => {
       clearInterval(interval);

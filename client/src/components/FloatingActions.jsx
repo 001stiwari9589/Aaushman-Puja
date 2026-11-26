@@ -79,15 +79,15 @@ export default function FloatingActions() {
         className="lg:hidden fixed bottom-0 left-0 right-0 z-30 px-5 pt-1 pointer-events-none"
         style={{ paddingBottom: 'calc(0.2rem + env(safe-area-inset-bottom))' }}
       >
-        <div className="w-full flex items-center justify-between gap-6">
+        <div className="w-full flex items-center justify-between gap-4">
           <a
             href="tel:+919589018011"
             aria-label="Call Pandit Ji"
-            className={`pointer-events-auto min-w-[122px] h-9 px-4 rounded-full bg-[#E65100] hover:bg-[#BF360C] text-white font-sans font-bold text-xs flex items-center justify-center gap-1.5 shadow-[0_4px_14px_rgba(230,81,0,0.45)] border-2 border-white no-underline active:scale-95 transition-transform ${
+            className={`pointer-events-auto min-w-[138px] h-11 px-5 rounded-full bg-[#E65100] hover:bg-[#BF360C] text-white font-sans font-bold text-sm flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(230,81,0,0.45)] border-2 border-white no-underline active:scale-95 transition-transform ${
               shouldReduceMotion ? '' : 'animate-vibrate'
             }`}
           >
-            <Phone className="w-3.5 h-3.5 text-white shrink-0" />
+            <Phone className="w-4 h-4 text-white shrink-0" />
             <span>Call Now</span>
           </a>
 
@@ -96,12 +96,12 @@ export default function FloatingActions() {
             target="_blank"
             rel="noreferrer"
             aria-label="Chat on WhatsApp"
-            className={`pointer-events-auto min-w-[122px] h-9 px-4 rounded-full bg-[#25D366] hover:opacity-95 text-white font-sans font-bold text-xs flex items-center justify-center gap-1.5 shadow-[0_4px_14px_rgba(37,211,102,0.45)] border-2 border-white no-underline active:scale-95 transition-transform ${
+            className={`pointer-events-auto min-w-[138px] h-11 px-5 rounded-full bg-[#25D366] hover:opacity-95 text-white font-sans font-bold text-sm flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(37,211,102,0.45)] border-2 border-white no-underline active:scale-95 transition-transform ${
               shouldReduceMotion ? '' : 'animate-vibrate'
             }`}
             style={shouldReduceMotion ? undefined : { animationDelay: '0.4s' }}
           >
-            <MessageCircle className="w-4 h-4 text-white shrink-0" />
+            <MessageCircle className="w-5 h-5 text-white shrink-0" />
             <span>WhatsApp</span>
           </a>
         </div>
