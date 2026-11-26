@@ -30,6 +30,18 @@ export default function Navbar({ activeSection, isMobileView, onMobileNavigate }
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const prevBodyOverflow = document.body.style.overflow;
+    const prevHtmlOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prevBodyOverflow;
+      document.documentElement.style.overflow = prevHtmlOverflow;
+    };
+  }, [mobileMenuOpen]);
+
   const navLinks = [
     { name: t.nav.home, href: '#hero' },
     { name: t.nav.services, href: '#services' },
@@ -173,7 +185,7 @@ export default function Navbar({ activeSection, isMobileView, onMobileNavigate }
             animate={shouldReduceMotion ? { opacity: 1 } : { x: 0 }}
             exit={shouldReduceMotion ? { opacity: 0 } : { x: '100%' }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="lg:hidden fixed inset-0 bg-[#FFF8EC] z-50 p-5 flex flex-col overflow-y-auto"
+            className="lg:hidden fixed inset-0 bg-[#FFF8EC] z-50 p-5 flex flex-col overflow-y-auto overscroll-contain"
           >
             <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#EBD5B0]">
               <div className="flex items-center gap-2.5">
