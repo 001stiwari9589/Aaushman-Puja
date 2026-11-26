@@ -74,16 +74,16 @@ export default function FloatingActions() {
 
   return (
     <>
-      {/* Mobile (<1024px): Compact Bottom Side-by-Side Call & WhatsApp Pill Buttons */}
+      {/* Mobile (<1024px): Left & Right Pinned Pill Buttons with Edge Margin & Wide Center Gap */}
       <div
-        className="lg:hidden fixed bottom-0 left-0 right-0 z-30 px-4 pt-1 pointer-events-none"
+        className="lg:hidden fixed bottom-0 left-0 right-0 z-30 px-5 pt-1 pointer-events-none"
         style={{ paddingBottom: 'calc(0.2rem + env(safe-area-inset-bottom))' }}
       >
-        <div className="max-w-sm mx-auto flex items-center justify-center gap-6">
+        <div className="w-full flex items-center justify-between gap-6">
           <a
             href="tel:+919589018011"
             aria-label="Call Pandit Ji"
-            className={`pointer-events-auto min-w-[126px] h-9 px-4 rounded-full bg-[#E65100] hover:bg-[#BF360C] text-white font-sans font-bold text-xs flex items-center justify-center gap-1.5 shadow-[0_4px_14px_rgba(230,81,0,0.45)] border-2 border-white no-underline active:scale-95 transition-transform ${
+            className={`pointer-events-auto min-w-[122px] h-9 px-4 rounded-full bg-[#E65100] hover:bg-[#BF360C] text-white font-sans font-bold text-xs flex items-center justify-center gap-1.5 shadow-[0_4px_14px_rgba(230,81,0,0.45)] border-2 border-white no-underline active:scale-95 transition-transform ${
               shouldReduceMotion ? '' : 'animate-vibrate'
             }`}
           >
@@ -96,7 +96,7 @@ export default function FloatingActions() {
             target="_blank"
             rel="noreferrer"
             aria-label="Chat on WhatsApp"
-            className={`pointer-events-auto min-w-[126px] h-9 px-4 rounded-full bg-[#25D366] hover:opacity-95 text-white font-sans font-bold text-xs flex items-center justify-center gap-1.5 shadow-[0_4px_14px_rgba(37,211,102,0.45)] border-2 border-white no-underline active:scale-95 transition-transform ${
+            className={`pointer-events-auto min-w-[122px] h-9 px-4 rounded-full bg-[#25D366] hover:opacity-95 text-white font-sans font-bold text-xs flex items-center justify-center gap-1.5 shadow-[0_4px_14px_rgba(37,211,102,0.45)] border-2 border-white no-underline active:scale-95 transition-transform ${
               shouldReduceMotion ? '' : 'animate-vibrate'
             }`}
             style={shouldReduceMotion ? undefined : { animationDelay: '0.4s' }}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { PUJAS_DATA } from '../data/pujas';
@@ -23,6 +23,25 @@ export default function BookingForm({ preselectedPuja }) {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successData, setSuccessData] = useState(null);
+  const [asideVideoFailed, setAsideVideoFailed] = useState(false);
+  const asideVideoRef = useRef(null);
+
+  useEffect(() => {
+    const vid = asideVideoRef.current;
+    if (!vid || asideVideoFailed) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          vid.play().catch(() => {});
+        } else {
+          vid.pause();
+        }
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(vid);
+    return () => observer.disconnect();
+  }, [asideVideoFailed, formData.puja]);
 
   useEffect(() => {
     if (preselectedPuja) {
@@ -362,17 +381,33 @@ export default function BookingForm({ preselectedPuja }) {
                   {language === 'hi' ? 'सभी वैदिक पूजाएं उपलब्ध' : 'All Vedic Pujas & Kathas'}
                 </div>
 
-                <picture>
-                  <source srcSet="/images/about-ritual.webp" type="image/webp" />
-                  <img
-                    src="/images/about-ritual.jpg"
-                    alt="All Vedic Pujas & Sacred Ceremonies"
-                    loading="lazy"
-                    width="800"
-                    height="533"
-                    className="w-full h-44 object-cover rounded-xl mb-4 border border-[#EBD5B0]"
-                  />
-                </picture>
+                {asideVideoFailed ? (
+                  <picture>
+                    <source srcSet="/images/about-ritual.webp" type="image/webp" />
+                    <img
+                      src="/images/about-ritual.jpg"
+                      alt="All Vedic Pujas & Sacred Ceremonies"
+                      loading="lazy"
+                      width="800"
+                      height="533"
+                      className="w-full h-44 object-cover rounded-xl mb-4 border border-[#EBD5B0]"
+                    />
+                  </picture>
+                ) : (
+                  <video
+                    ref={asideVideoRef}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="none"
+                    poster="/images/about-ritual.jpg"
+                    onError={() => setAsideVideoFailed(true)}
+                    className="w-full h-44 object-cover rounded-xl mb-4 border border-[#EBD5B0] bg-[#3B1208]"
+                  >
+                    <source src="/videos/vedic-havan.mp4" type="video/mp4" />
+                  </video>
+                )}
 
                 <h3 className="font-heading text-2xl font-bold text-[#4A1C0C] mb-2">
                   {language === 'hi' ? 'हर प्रकार की पूजा, कथा एवं हवन' : 'Every Puja, Katha & Havan Under One Roof'}
