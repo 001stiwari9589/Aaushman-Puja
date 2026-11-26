@@ -139,37 +139,34 @@ export default function PanditsSection({ onOpenBrahminModal }) {
           </p>
         </div>
 
-        {/* Mobile (<1024px): Horizontal Swipe with Left/Right Arrows */}
-        <div className="lg:hidden relative">
+        {/* Unified Horizontal Carousel (Mobile & Laptop) with Left/Right Arrows */}
+        <div className="relative">
           <button
             type="button"
             onClick={() => scrollCarousel('left')}
             aria-label="Previous pandit"
-            className="absolute -left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-[#FFF8EC]/95 border border-[#C8961E]/60 shadow-md flex items-center justify-center text-[#4A1C0C] active:scale-95"
+            className="absolute -left-2 lg:-left-5 top-1/2 -translate-y-1/2 z-10 w-9 h-9 lg:w-11 lg:h-11 rounded-full bg-[#FFF8EC]/95 border border-[#C8961E]/70 shadow-md flex items-center justify-center text-[#4A1C0C] hover:border-[#E65100] hover:text-[#E65100] active:scale-95 transition-colors cursor-pointer"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5" />
           </button>
 
           <div
             ref={carouselRef}
-            className="flex gap-4 overflow-x-auto overflow-y-hidden overscroll-x-contain pb-2 scroll-smooth no-scrollbar px-1"
+            className="flex gap-4 lg:gap-6 overflow-x-auto overflow-y-hidden overscroll-x-contain pb-2 scroll-smooth no-scrollbar px-1 lg:px-2"
           >
-            {allPandits.map((p) => renderPanditCard(p, 'w-[78vw] sm:w-[300px] shrink-0'))}
+            {allPandits.map((p) =>
+              renderPanditCard(p, 'w-[78vw] sm:w-[300px] lg:w-[340px] lg:min-h-[345px] lg:p-6 shrink-0')
+            )}
           </div>
 
           <button
             type="button"
             onClick={() => scrollCarousel('right')}
             aria-label="Next pandit"
-            className="absolute -right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-[#FFF8EC]/95 border border-[#C8961E]/60 shadow-md flex items-center justify-center text-[#4A1C0C] active:scale-95"
+            className="absolute -right-2 lg:-right-5 top-1/2 -translate-y-1/2 z-10 w-9 h-9 lg:w-11 lg:h-11 rounded-full bg-[#FFF8EC]/95 border border-[#C8961E]/70 shadow-md flex items-center justify-center text-[#4A1C0C] hover:border-[#E65100] hover:text-[#E65100] active:scale-95 transition-colors cursor-pointer"
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-4 h-4 lg:w-5 lg:h-5" />
           </button>
-        </div>
-
-        {/* Laptop & Desktop (>=1024px): 3-Column Grid */}
-        <div className="hidden lg:grid lg:grid-cols-3 lg:gap-6">
-          {allPandits.map((p) => renderPanditCard(p))}
         </div>
 
         {/* Join as Brahmin CTA */}
