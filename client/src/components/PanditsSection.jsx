@@ -181,7 +181,7 @@ export default function PanditsSection({ onOpenBrahminModal }) {
 
           <div
             ref={carouselRef}
-            className="flex gap-4 lg:gap-6 overflow-x-auto overflow-y-hidden overscroll-x-contain pb-2 no-scrollbar px-1 lg:px-2"
+            className="flex gap-4 lg:gap-6 overflow-x-auto overflow-y-hidden overscroll-x-contain pt-3 pb-4 no-scrollbar px-1 lg:px-2"
           >
             {allPandits.map((p) =>
               renderPanditCard(p, 'w-[78vw] sm:w-[300px] lg:w-[340px] lg:min-h-[345px] lg:p-6 shrink-0')
