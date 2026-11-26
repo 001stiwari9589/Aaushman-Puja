@@ -110,6 +110,36 @@ export const TRANSLATIONS = {
           category: 'Sacred Katha',
           tagline: 'Devotional chanting of Sundarkand & Ramayan Katha for courage, positivity, and protection.',
         },
+        'lakshmi-puja': {
+          name: 'Lakshmi Puja & Dhanteras Pujan',
+          category: 'Wealth & Prosperity',
+          tagline: 'Invoking Goddess Mahalakshmi and Lord Kuber for abundance, business growth, and home prosperity.',
+        },
+        'mahamrityunjaya-jaap': {
+          name: 'Mahamrityunjaya Jaap & Havan',
+          category: 'Health & Protection',
+          tagline: 'Powerful Vedic mantra anushthan of Lord Shiva for health recovery, longevity, and protection.',
+        },
+        'kaal-sarp-puja': {
+          name: 'Kaal Sarp & Pitra Dosh Puja',
+          category: 'Dosh Nivaran',
+          tagline: 'Authentic Vedic Shanti rituals to pacify planetary doshas and seek ancestral blessings.',
+        },
+        'durga-saptashati': {
+          name: 'Durga Saptashati & Chandi Havan',
+          category: 'Shakti & Protection',
+          tagline: 'Sacred recitation of Devi Mahatmya and Chandi Havan for strength, victory, and family protection.',
+        },
+        'office-opening-puja': {
+          name: 'Office / Shop Opening Puja',
+          category: 'Business & Career',
+          tagline: 'Auspicious Vastu, Ganesh, and Lakshmi Pujan for new offices, shops, factories, and startups.',
+        },
+        'any-other-puja': {
+          name: 'Any Other Puja & Havan',
+          category: 'Custom Vedic Ritual',
+          tagline: 'Need a specific Puja, Katha, Jaap, or Sanskar? Select this option and book any customized Vedic ritual.',
+        },
       },
     },
     about: {
@@ -449,6 +479,36 @@ export const TRANSLATIONS = {
           name: 'सुंदरकांड पाठ एवं रामायण कथा',
           category: 'पावन कथा',
           tagline: 'सकारात्मक ऊर्जा, साहस और सुख-शांति के लिए संगीतमय सुंदरकांड पाठ एवं रामायण कथा।',
+        },
+        'lakshmi-puja': {
+          name: 'लक्ष्मी पूजा एवं धनतेरस पूजन',
+          category: 'धन एवं समृद्धि',
+          tagline: 'घर और व्यापार में सुख-समृद्धि एवं धन-धान्य के लिए माँ लक्ष्मी और कुबेर जी का वैदिक पूजन।',
+        },
+        'mahamrityunjaya-jaap': {
+          name: 'महामृत्युंजय जप एवं हवन',
+          category: 'स्वास्थ्य एवं रक्षा',
+          tagline: 'उत्तम स्वास्थ्य, दीर्घायु और संकट निवारण हेतु गुरुकुल आचार्यों द्वारा महामृत्युंजय मंत्र अनुष्ठान।',
+        },
+        'kaal-sarp-puja': {
+          name: 'कालसर्प एवं पितृ दोष निवारण पूजा',
+          category: 'दोष निवारण',
+          tagline: 'ग्रह दोषों की शांति और पितरों के आशीर्वाद हेतु शुद्ध शास्त्रोक्त वैदिक अनुष्ठान।',
+        },
+        'durga-saptashati': {
+          name: 'दुर्गा सप्तशती पाठ एवं चंडी हवन',
+          category: 'शक्ति एवं सुरक्षा',
+          tagline: 'नकारात्मकता से रक्षा, साहस और विजय प्राप्ति हेतु माँ दुर्गा का पावन पाठ एवं हवन।',
+        },
+        'office-opening-puja': {
+          name: 'ऑफिस / दुकान उद्घाटन पूजा',
+          category: 'व्यापार एवं उन्नति',
+          tagline: 'नए कार्यालय, दुकान या व्यापार की शुभ शुरुआत हेतु गणेश-लक्ष्मी एवं वास्तु पूजन।',
+        },
+        'any-other-puja': {
+          name: 'अन्य कोई पूजा एवं हवन (Any Other Puja)',
+          category: 'विशेष वैदिक अनुष्ठान',
+          tagline: 'यदि आप कोई अन्य पूजा, पाठ, जप या संस्कार कराना चाहते हैं, तो इसे चुनकर बुकिंग करें।',
         },
       },
     },

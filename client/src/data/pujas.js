@@ -274,5 +274,137 @@ export const PUJAS_DATA = [
       'Prasad Distribution'
     ],
     significance: 'Removes fear and obstacles, brings positivity, strength, and peace to home and business.'
+  },
+  {
+    id: 'lakshmi-puja',
+    name: 'Lakshmi Puja & Dhanteras Pujan',
+    category: 'Wealth & Prosperity',
+    tagline: 'Invoking Goddess Mahalakshmi and Lord Kuber for abundance, business growth, and home prosperity.',
+    description: 'Traditional Shodashopachara Lakshmi-Ganesh and Kuber Pujan performed on Diwali, Dhanteras, Fridays, or auspicious Muhurats for financial stability and harmony.',
+    image: '/images/lakshmi-puja.jpg',
+    fallbackImage: '/images/lakshmi-puja.jpg',
+    priceInfo: 'Contact for price',
+    duration: '2 - 2.5 Hours',
+    pandits: '1-2 Acharyas',
+    samagriItems: ['Lotus & Marigold Garlands', 'Silver Coin & Kuber Yantra', 'Kamalgatta, Kesar & Sindoor', 'Pure Ghee Diyas & Havan Samagri'],
+    samagriIncluded: 'Lotus flowers, Kamalgatta, Kesar, Kumkum, Kalash, Coconut, and complete Lakshmi Havan samagri',
+    keyRituals: [
+      'Shri Ganesh & Kalash Sthapana',
+      'Mahalakshmi & Kuber Pujan',
+      'Shri Suktam & Kanakadhara Stotra',
+      '108 Kamalgatta Ahuti Havan',
+      'Maha Aarti & Prasad'
+    ],
+    significance: 'Attracts prosperity, removes financial obstacles, and brings divine grace to home and business.'
+  },
+  {
+    id: 'mahamrityunjaya-jaap',
+    name: 'Mahamrityunjaya Jaap & Havan',
+    category: 'Health & Protection',
+    tagline: 'Powerful Vedic mantra anushthan of Lord Shiva for health recovery, longevity, and protection.',
+    description: 'Sacred 11,000, 21,000, or 1.25 Lakh Mahamrityunjaya Mantra Jaap performed by Gurukul-trained Brahmins followed by Dashansh Havan.',
+    image: '/images/rudrabhishek.webp',
+    fallbackImage: '/images/rudrabhishek.jpg',
+    priceInfo: 'Contact for price',
+    duration: '3 - 5 Hours / Multi-Day',
+    pandits: '2-5 Acharyas',
+    samagriItems: ['Rudraksha Mala & Bilva Leaves', 'Giloy, Black Sesame & Cow Ghee', 'Panchamrit & Gangajal', 'Dashansh Havan Samagri'],
+    samagriIncluded: 'Complete Jaap & Dashansh Havan samagri with pure cow ghee, giloy, sesame, and bilva patra',
+    keyRituals: [
+      'Sankalp & Ganesh-Gauri Pujan',
+      'Mahamrityunjaya Mantra Jaap',
+      'Rudrabhishek & Bilva Arpan',
+      'Dashansh Havan & Purnahuti',
+      'Aarti & Ashirwad'
+    ],
+    significance: 'Bestows healing, relief from chronic ailments, mental peace, and protection from fear.'
+  },
+  {
+    id: 'kaal-sarp-puja',
+    name: 'Kaal Sarp & Pitra Dosh Puja',
+    category: 'Dosh Nivaran',
+    tagline: 'Authentic Vedic Shanti rituals to pacify planetary doshas and seek ancestral blessings.',
+    description: 'Performed strictly per Vedic scriptures to remove Kaal Sarp Dosha, Pitra Dosha, or Manglik obstacles and restore career and family peace.',
+    image: '/images/havan-navagraha.webp',
+    fallbackImage: '/images/havan-navagraha.jpg',
+    priceInfo: 'Contact for price',
+    duration: '3 - 4 Hours',
+    pandits: '2 Acharyas',
+    samagriItems: ['Silver Nag-Nagin Pair', 'Navagraha Samidha & Black Til', 'Kusha Grass & Gangajal', 'Shanti Havan Samagri'],
+    samagriIncluded: 'Nag-Nagin pair, Navagraha samidha, Kusha grass, Gangajal, and complete Shanti Havan samagri',
+    keyRituals: [
+      'Ganesh & Varun Kalash Pujan',
+      'Rahu-Ketu & Nag Devta Pujan',
+      'Pitra Tarpan & Shanti Path',
+      'Navagraha Havan & Purnahuti',
+      'Visarjan & Aarti'
+    ],
+    significance: 'Removes unseen hurdles in career, marriage, and finances while bringing ancestral peace.'
+  },
+  {
+    id: 'durga-saptashati',
+    name: 'Durga Saptashati & Chandi Havan',
+    category: 'Shakti & Protection',
+    tagline: 'Sacred recitation of Devi Mahatmya and Chandi Havan for strength, victory, and family protection.',
+    description: 'Authentic 13-chapter Durga Saptashati Path performed during Navratri or auspicious days to invoke Maa Durga’s divine protection.',
+    image: '/images/about-ritual.webp',
+    fallbackImage: '/images/about-ritual.jpg',
+    priceInfo: 'Contact for price',
+    duration: '3.5 - 4.5 Hours',
+    pandits: '2-3 Acharyas',
+    samagriItems: ['Red Chunri, Sindoor & Hibiscus', 'Panchmeva, Coconut & Kalash', 'Ghee, Hawan Kund & Samidha', 'Devi Prasad Samagri'],
+    samagriIncluded: 'Red Chunri, Hibiscus, Kalash, Coconut, pure ghee, and complete Chandi Havan samagri',
+    keyRituals: [
+      'Kalash Sthapana & Devi Avahan',
+      'Kavach, Argala & Kilak Stotra',
+      'Complete Durga Saptashati Path',
+      'Chandi Havan & Kumari Pujan',
+      'Maha Aarti & Prasad'
+    ],
+    significance: 'Protects the family from negativity and grants courage, wisdom, and success.'
+  },
+  {
+    id: 'office-opening-puja',
+    name: 'Office / Shop Opening Puja',
+    category: 'Business & Career',
+    tagline: 'Auspicious Vastu, Ganesh, and Lakshmi Pujan for new offices, shops, factories, and startups.',
+    description: 'Invokes Lord Ganesha, Maa Lakshmi, and Vastu Devta at your new workplace for smooth operations, loyal clients, and steady growth.',
+    image: '/images/ganesh-puja.webp',
+    fallbackImage: '/images/ganesh-puja.jpg',
+    priceInfo: 'Contact for price',
+    duration: '2 - 3 Hours',
+    pandits: '1-2 Acharyas',
+    samagriItems: ['Swastik & Toran Bandhan', 'Ganesh-Lakshmi Pujan Thali', 'Vastu Kalash & Coconut', 'Business Havan Samagri'],
+    samagriIncluded: 'Complete office opening samagri with Toran, Kalash, Ganesh-Lakshmi pujan items, and Havan samagri',
+    keyRituals: [
+      'Dwar Pujan & Swastik Lekhan',
+      'Ganesh & Lakshmi-Kuber Pujan',
+      'Vastu Shanti & Navagraha Pujan',
+      'Shubh Havan & Aarti',
+      'Prasad Distribution'
+    ],
+    significance: 'Blesses your business with positivity, prosperity, and obstacle-free growth.'
+  },
+  {
+    id: 'any-other-puja',
+    name: 'Any Other Puja & Havan',
+    category: 'Custom Vedic Ritual',
+    tagline: 'Need a specific Puja, Katha, Jaap, or Sanskar? Select this option and book any customized Vedic ritual.',
+    description: 'Whether it is Saraswati Puja, Gayatri Yagya, Vishwakarma Puja, Ekadashi Udyapan, Shradh Karma, or any regional Sanatan ritual, our Acharyas perform all Vedic pujas with pure vidhi.',
+    image: '/images/any-other-puja.jpg',
+    fallbackImage: '/images/about-ritual.jpg',
+    priceInfo: 'Contact for price',
+    duration: 'As per Vidhi',
+    pandits: '1-4 Acharyas',
+    samagriItems: ['Customized Puja Samagri', 'Kalash, Flowers & Pure Ghee', 'Havan Kund & Samidha', 'Complete Vidhi Arrangement'],
+    samagriIncluded: 'Complete customized Samagri arranged according to your specific Puja and tradition',
+    keyRituals: [
+      'Personal Muhurat Consultation',
+      'Ganesh & Kalash Sthapana',
+      'Specific Deity / Sanskar Vidhi',
+      'Vedic Mantra Chanting & Havan',
+      'Aarti & Ashirwad'
+    ],
+    significance: 'Tailored Sanatan Vedic ritual performed strictly according to your family tradition and scriptures.'
   }
 ];
