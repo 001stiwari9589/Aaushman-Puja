@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { PUJAS_DATA } from '../data/pujas';
+import { PUJAS_HI_DETAILS } from '../data/pujasHi';
 import { Sparkles, Clock, Users, Flame, X, Check, ArrowRight, PackageCheck, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useBookingPopup } from '../context/BookingPopupContext';
@@ -47,9 +48,12 @@ export default function Services() {
 
   const renderPujaCard = (puja, index, extraClass = '') => {
     const localized = t.services.items?.[puja.id] || {};
+    const hiDetail = language === 'hi' ? PUJAS_HI_DETAILS[puja.id] : null;
     const displayName = localized.name || puja.name;
     const displayCategory = localized.category || puja.category;
     const displayTagline = localized.tagline || puja.tagline;
+    const displaySamagri = hiDetail?.samagriItems || puja.samagriItems;
+    const displayDuration = hiDetail?.duration || puja.duration;
 
     return (
       <motion.article
@@ -93,14 +97,14 @@ export default function Services() {
               <span>{language === 'hi' ? 'सामग्री शामिल:' : 'Samagri Included:'}</span>
             </div>
             <p className="m-0 line-clamp-1 text-[#5D4037]">
-              {puja.samagriItems.slice(0, 2).join(' • ')}
+              {displaySamagri.slice(0, 2).join(' • ')}
             </p>
           </div>
 
           <div className="flex items-center justify-between pt-2.5 border-t border-[#EBD5B0] mb-3.5 text-xs text-[#8D6E63] font-medium">
             <span className="inline-flex items-center gap-1">
               <Clock className="w-3.5 h-3.5 text-[#C8961E]" />
-              {puja.duration}
+              {displayDuration}
             </span>
             <span className="font-bold text-[#E65100]">
               {language === 'hi' ? 'मूल्य हेतु संपर्क करें' : puja.priceInfo}
@@ -217,116 +221,131 @@ export default function Services() {
         </div>
       </div>
 
-      {/* Puja Detail Modal: Bottom Sheet on Mobile (<640px), Centered Modal on Tablet/Desktop */}
+      {/* Puja Detail Modal: Centered Compact Card with Fixed Book Footer & Rounded Scrollbar */}
       <AnimatePresence>
-        {selectedPuja && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-[#3B1208]/65 backdrop-blur-sm flex items-end sm:items-center justify-center sm:p-6"
-            onClick={() => setSelectedPuja(null)}
-          >
+        {selectedPuja && (() => {
+          const hiDetail = language === 'hi' ? PUJAS_HI_DETAILS[selectedPuja.id] : null;
+          const modalDuration = hiDetail?.duration || selectedPuja.duration;
+          const modalPandits = hiDetail?.pandits || selectedPuja.pandits;
+          const modalDescription = hiDetail?.description || selectedPuja.description;
+          const modalSignificance = hiDetail?.significance || selectedPuja.significance;
+          const modalRituals = hiDetail?.keyRituals || selectedPuja.keyRituals;
+          const modalSamagri = hiDetail?.samagriItems || selectedPuja.samagriItems;
+
+          return (
             <motion.div
-              initial={shouldReduceMotion ? { opacity: 0 } : { y: 40, scale: 0.97, opacity: 0 }}
-              animate={{ y: 0, scale: 1, opacity: 1 }}
-              exit={shouldReduceMotion ? { opacity: 0 } : { y: 40, scale: 0.97, opacity: 0 }}
-              transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-              onClick={(e) => e.stopPropagation()}
-              className="w-full sm:max-w-2xl max-h-[88dvh] overflow-y-auto bg-[#FFFFFF] border border-[#EBD5B0] rounded-t-2xl sm:rounded-2xl shadow-2xl p-6 sm:p-8 relative"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 bg-[#3B1208]/65 backdrop-blur-sm flex items-center justify-center p-3 pb-16 sm:p-6"
+              onClick={() => setSelectedPuja(null)}
             >
-              <div className="sm:hidden w-12 h-1.5 bg-[#EBD5B0] rounded-full mx-auto mb-4" />
-
-              <button
-                type="button"
-                onClick={() => setSelectedPuja(null)}
-                className="absolute top-4 right-4 w-11 h-11 rounded-full bg-[#FFF8EC] border border-[#EBD5B0] flex items-center justify-center text-[#4A1C0C] hover:border-[#E65100] cursor-pointer"
-                aria-label="Close details modal"
+              <motion.div
+                initial={shouldReduceMotion ? { opacity: 0 } : { y: 24, scale: 0.96, opacity: 0 }}
+                animate={{ y: 0, scale: 1, opacity: 1 }}
+                exit={shouldReduceMotion ? { opacity: 0 } : { y: 24, scale: 0.96, opacity: 0 }}
+                transition={{ type: 'spring', damping: 28, stiffness: 320 }}
+                onClick={(e) => e.stopPropagation()}
+                className="w-full max-w-xl max-h-[82dvh] bg-[#FFFFFF] border border-[#EBD5B0] rounded-2xl shadow-2xl flex flex-col overflow-hidden relative"
               >
-                <X className="w-5 h-5" />
-              </button>
+                {/* Fixed Modal Header */}
+                <div className="px-5 pt-4 pb-3 border-b border-[#EBD5B0]/70 shrink-0 relative bg-[#FFFFFF]">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedPuja(null)}
+                    className="absolute top-3.5 right-3.5 w-9 h-9 rounded-full bg-[#FFF8EC] border border-[#EBD5B0] flex items-center justify-center text-[#4A1C0C] hover:border-[#E65100] cursor-pointer"
+                    aria-label="Close details modal"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
 
-              <div className="text-xs font-bold uppercase tracking-wider text-[#E65100] mb-1">
-                {t.services.items?.[selectedPuja.id]?.category || selectedPuja.category}
-              </div>
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#E65100] mb-0.5">
+                    {t.services.items?.[selectedPuja.id]?.category || selectedPuja.category}
+                  </div>
 
-              <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#4A1C0C] mb-2 pr-10">
-                {t.services.items?.[selectedPuja.id]?.name || selectedPuja.name}
-              </h2>
+                  <h2 className="font-heading text-xl sm:text-2xl font-bold text-[#4A1C0C] mb-1.5 pr-10">
+                    {t.services.items?.[selectedPuja.id]?.name || selectedPuja.name}
+                  </h2>
 
-              <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-[#5D4037] mb-4">
-                <span className="inline-flex items-center gap-1">
-                  <Clock className="w-4 h-4 text-[#C8961E]" />
-                  {selectedPuja.duration}
-                </span>
-                <span className="inline-flex items-center gap-1">
-                  <Users className="w-4 h-4 text-[#C8961E]" />
-                  {selectedPuja.pandits}
-                </span>
-                <span className="text-[#E65100] font-bold">
-                  {language === 'hi' ? 'मूल्य हेतु संपर्क करें' : selectedPuja.priceInfo}
-                </span>
-              </div>
-
-              <p className="text-[#5D4037] text-base leading-relaxed mb-5">
-                {selectedPuja.description}
-              </p>
-
-              <div className="bg-[#FBEBD0]/60 border-l-4 border-[#E65100] p-4 rounded-r-xl mb-5">
-                <div className="text-xs font-bold uppercase tracking-wider text-[#4A1C0C] mb-1">
-                  {t.services.benefits}
+                  <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-[#5D4037]">
+                    <span className="inline-flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5 text-[#C8961E]" />
+                      {modalDuration}
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <Users className="w-3.5 h-3.5 text-[#C8961E]" />
+                      {modalPandits}
+                    </span>
+                    <span className="text-[#E65100] font-bold">
+                      {language === 'hi' ? 'मूल्य हेतु संपर्क करें' : selectedPuja.priceInfo}
+                    </span>
+                  </div>
                 </div>
-                <p className="text-sm text-[#5D4037] m-0">{selectedPuja.significance}</p>
-              </div>
 
-              <div className="mb-5">
-                <h4 className="font-heading text-base font-bold text-[#4A1C0C] mb-2.5">
-                  {t.services.keyRitualsTitle}
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {selectedPuja.keyRituals.map((ritual, idx) => (
-                    <div key={idx} className="flex items-start gap-2 text-sm text-[#5D4037]">
-                      <Check className="w-4 h-4 text-[#E65100] shrink-0 mt-1" />
-                      <span>{ritual}</span>
+                {/* Scrollable Body with Rounded Scrollbar */}
+                <div className="flex-1 overflow-y-auto px-5 py-4 vedic-modal-scroll">
+                  <p className="text-[#5D4037] text-sm sm:text-base leading-relaxed mb-4">
+                    {modalDescription}
+                  </p>
+
+                  <div className="bg-[#FBEBD0]/60 border-l-4 border-[#E65100] p-3.5 rounded-r-xl mb-4">
+                    <div className="text-xs font-bold uppercase tracking-wider text-[#4A1C0C] mb-1">
+                      {t.services.benefits}
                     </div>
-                  ))}
-                </div>
-              </div>
+                    <p className="text-xs sm:text-sm text-[#5D4037] m-0">{modalSignificance}</p>
+                  </div>
 
-              <div className="mb-6 bg-[#FFF8EC] p-4 rounded-xl border border-[#EBD5B0]">
-                <div className="text-xs font-bold uppercase tracking-wider text-[#4A1C0C] mb-2">
-                  {language === 'hi' ? 'पूजन सामग्री में शामिल:' : 'What is Included / Samagri:'}
-                </div>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-sm text-[#5D4037] list-none p-0 m-0">
-                  {selectedPuja.samagriItems.map((item, idx) => (
-                    <li key={idx} className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#C8961E] shrink-0" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                  <div className="mb-4">
+                    <h4 className="font-heading text-sm sm:text-base font-bold text-[#4A1C0C] mb-2">
+                      {t.services.keyRitualsTitle}
+                    </h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                      {modalRituals.map((ritual, idx) => (
+                        <div key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-[#5D4037]">
+                          <Check className="w-4 h-4 text-[#E65100] shrink-0 mt-0.5" />
+                          <span>{ritual}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
 
-              <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-3">
-                <button
-                  type="button"
-                  onClick={() => setSelectedPuja(null)}
-                  className="btn-saffron-outline w-full sm:w-auto text-sm"
-                >
-                  {language === 'hi' ? 'बंद करें' : 'Close'}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleBookNow(selectedPuja.name)}
-                  className="btn-saffron-primary w-full sm:w-auto text-sm"
-                >
-                  <Flame className="w-4 h-4" />
-                  <span>{t.services.bookThis}</span>
-                </button>
-              </div>
+                  <div className="bg-[#FFF8EC] p-3.5 rounded-xl border border-[#EBD5B0]">
+                    <div className="text-xs font-bold uppercase tracking-wider text-[#4A1C0C] mb-2">
+                      {language === 'hi' ? 'पूजन सामग्री में शामिल:' : 'What is Included / Samagri:'}
+                    </div>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs sm:text-sm text-[#5D4037] list-none p-0 m-0">
+                      {modalSamagri.map((item, idx) => (
+                        <li key={idx} className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#C8961E] shrink-0" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Sticky Bottom Footer (Always Visible on Mobile & Laptop) */}
+                <div className="px-5 py-3 border-t border-[#EBD5B0] bg-[#FFF8EC]/80 shrink-0 flex items-center justify-end gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedPuja(null)}
+                    className="btn-saffron-outline px-4 py-2 text-xs sm:text-sm min-h-[40px]"
+                  >
+                    {language === 'hi' ? 'बंद करें' : 'Close'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleBookNow(selectedPuja.name)}
+                    className="btn-saffron-primary px-5 py-2 text-xs sm:text-sm min-h-[40px]"
+                  >
+                    <Flame className="w-4 h-4" />
+                    <span>{t.services.bookThis}</span>
+                  </button>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
+          );
+        })()}
       </AnimatePresence>
     </section>
   );
