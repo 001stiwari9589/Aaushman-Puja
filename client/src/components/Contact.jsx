@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Phone, Mail, MessageCircle, Send, Flame, Sparkles, CheckCircle2, Loader2, ExternalLink } from 'lucide-react';
+import { Phone, Mail, MessageCircle, Send, Flame, Sparkles, CheckCircle2, Loader2 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function Contact() {
@@ -71,7 +71,7 @@ export default function Contact() {
         setErrorMsg(data.message || 'Unable to send message.');
       }
     } catch {
-      setErrorMsg('Failed to connect to server. Please call +91 9589018011 directly.');
+      setErrorMsg(language === 'hi' ? 'सर्वर से कनेक्ट नहीं हो सका। कृपया सीधे कॉल करें।' : 'Failed to connect to server. Please tap Call Pandit Ji directly.');
     } finally {
       setLoading(false);
       setTimeout(() => setSent(false), 6000);
@@ -80,13 +80,9 @@ export default function Contact() {
 
   const mailtoHref =
     'mailto:001stiwari9589@gmail.com?subject=' +
-    encodeURIComponent('Vedic Puja Inquiry - Divine Vedic Puja') +
+    encodeURIComponent('Vedic Puja Inquiry - Aaushman Puja') +
     '&body=' +
-    encodeURIComponent('Namaste Pandit Ji,\n\nI would like to enquire about booking a Puja in Jabalpur.\n\nName:\nPhone:\nPreferred Date:');
-
-  const gmailHref =
-    'https://mail.google.com/mail/?view=cm&fs=1&to=001stiwari9589@gmail.com&su=' +
-    encodeURIComponent('Vedic Puja Inquiry - Divine Vedic Puja');
+    encodeURIComponent('Namaste Pandit Ji,\n\nI would like to enquire about booking a Puja.\n\nName:\nPhone:\nCity:');
 
   const inputClass = (name) =>
     `vedic-input ${fieldErrors[name] ? '!border-red-600 focus:!ring-red-200' : ''}`;
@@ -124,7 +120,7 @@ export default function Contact() {
             </p>
 
             <div className="flex flex-col gap-4">
-              {/* Visible Phone Number */}
+              {/* Call Pandit Ji (number hidden) */}
               <a
                 href="tel:+919589018011"
                 className="flex items-center gap-4 bg-[#FFFFFF] p-4 rounded-xl border border-[#EBD5B0] hover:border-[#E65100] shadow-[0_4px_14px_rgba(74,28,12,0.06)] transition-colors no-underline min-h-[64px]"
@@ -137,12 +133,12 @@ export default function Contact() {
                     {t.contact.callLabel}
                   </div>
                   <div className="text-base sm:text-lg font-bold text-[#4A1C0C]">
-                    +91 9589018011
+                    {language === 'hi' ? 'पंडित जी को कॉल करें' : 'Tap to Call Pandit Ji'}
                   </div>
                 </div>
               </a>
 
-              {/* Visible WhatsApp */}
+              {/* WhatsApp Pandit Ji (number hidden) */}
               <a
                 href="https://wa.me/919589018011?text=Namaste%20Pandit%20Ji,%20I%20would%20like%20to%20enquire%20about%20booking%20a%20Vedic%20Puja."
                 target="_blank"
@@ -157,40 +153,28 @@ export default function Contact() {
                     {t.contact.whatsappLabel}
                   </div>
                   <div className="text-base sm:text-lg font-bold text-[#4A1C0C]">
-                    +91 9589018011
+                    {language === 'hi' ? 'व्हाट्सएप पर चैट करें' : 'Chat on WhatsApp'}
                   </div>
                 </div>
               </a>
 
-              {/* Visible Email + Gmail Compose */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#FFFFFF] p-4 rounded-xl border border-[#EBD5B0] hover:border-[#E65100] shadow-[0_4px_14px_rgba(74,28,12,0.06)] transition-colors">
-                <a
-                  href={gmailHref}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-4 no-underline flex-1 min-w-0"
-                >
-                  <div className="w-12 h-12 rounded-full bg-[#FBEBD0] flex items-center justify-center text-[#E65100] shrink-0">
-                    <Mail className="w-5 h-5" />
+              {/* Direct System Mailto Link on Email */}
+              <a
+                href={mailtoHref}
+                className="flex items-center gap-4 bg-[#FFFFFF] p-4 rounded-xl border border-[#EBD5B0] hover:border-[#E65100] shadow-[0_4px_14px_rgba(74,28,12,0.06)] transition-colors no-underline min-h-[64px]"
+              >
+                <div className="w-12 h-12 rounded-full bg-[#FBEBD0] flex items-center justify-center text-[#E65100] shrink-0">
+                  <Mail className="w-5 h-5" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-xs text-[#8D6E63] font-bold uppercase tracking-wider">
+                    {t.contact.emailLabel}
                   </div>
-                  <div className="min-w-0">
-                    <div className="text-xs text-[#8D6E63] font-bold uppercase tracking-wider">
-                      {t.contact.emailLabel}
-                    </div>
-                    <div className="text-sm sm:text-base font-bold text-[#4A1C0C] truncate">
-                      001stiwari9589@gmail.com
-                    </div>
+                  <div className="text-sm sm:text-base font-bold text-[#4A1C0C] truncate">
+                    001stiwari9589@gmail.com
                   </div>
-                </a>
-
-                <a
-                  href={mailtoHref}
-                  className="min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#FFF8EC] border border-[#EBD5B0] text-[#E65100] hover:bg-[#E65100] hover:text-white text-xs font-bold transition-colors no-underline shrink-0"
-                >
-                  <span>{t.contact.gmailBtn}</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              </div>
+                </div>
+              </a>
             </div>
           </div>
 

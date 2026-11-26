@@ -688,8 +688,9 @@ app.post('/api/reviews', formLimiter, async (req, res) => {
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
-    service: 'Divine Vedic Puja API',
+    service: 'Aaushman Puja API',
     mongoConnected: isMongoConnected,
+    smtpConfigured: Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS),
     timestamp: new Date().toISOString(),
   });
 });

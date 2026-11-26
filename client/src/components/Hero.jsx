@@ -123,8 +123,8 @@ export default function Hero() {
               <Flame className="w-4 h-4 text-[#C8961E]" />
               <span className="font-sans text-xs sm:text-sm text-[#FFF1D6] font-semibold tracking-wide">
                 {language === 'hi'
-                  ? 'नॉर्थ हिंदी, बिहारी एवं वैदिक पंडित जी ऑनलाइन पूजा सेवा'
-                  : 'North Hindi Pandit, Bihari Pandit & Vedic Pandit Services'}
+                  ? 'सनातन वैदिक परंपरा • सभी शुभ पूजा एवं संस्कार'
+                  : 'Sanatan Vedic Tradition • All Sacred Pujas & Sanskars'}
               </span>
             </motion.div>
 
@@ -135,8 +135,8 @@ export default function Hero() {
               className="font-heading text-[30px] sm:text-4xl lg:text-5xl xl:text-[52px] font-bold leading-[1.16] mb-4 lg:mb-6 text-[#FFFFFF]"
             >
               {language === 'hi'
-                ? 'गृह प्रवेश, विवाह, नामकरण एवं सभी पूजा हेतु ऑनलाइन पंडित जी'
-                : 'Book North Hindi, Bihari & Vedic Pandit Ji for All Online Puja Services'}
+                ? 'सभी सनातन वैदिक पूजा, कथा एवं संस्कार हेतु अनुभवी आचार्य'
+                : 'Authentic Vedic Pandits for All Sanatan Pujas & Sacred Rituals'}
             </motion.h1>
 
             <motion.p
