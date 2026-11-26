@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { MessageCircle, Flame, CheckCircle2, ArrowRight } from 'lucide-react';
+import { MessageCircle, Flame, CheckCircle2, ArrowRight, Phone } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useBookingPopup } from '../context/BookingPopupContext';
 
@@ -154,14 +154,14 @@ export default function Hero() {
               initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.24 }}
-              className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 max-w-lg"
+              className="flex flex-col sm:flex-row sm:flex-wrap gap-2.5 sm:gap-3"
             >
               <motion.button
                 type="button"
                 whileHover={shouldReduceMotion ? undefined : { y: -2 }}
                 whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
                 onClick={() => openBookingPopup('')}
-                className="btn-saffron-primary w-full sm:w-auto min-h-[48px] px-7 text-base"
+                className="btn-saffron-primary w-full sm:w-auto min-h-[42px] px-5 py-2 text-sm whitespace-nowrap"
               >
                 <Flame className="w-4 h-4" />
                 <span>{t.hero.bookNow}</span>
@@ -173,10 +173,20 @@ export default function Hero() {
                 href="https://wa.me/919589018011?text=Namaste%20Pandit%20Ji,%20I%20would%20like%20to%20book%20a%20Vedic%20Puja."
                 target="_blank"
                 rel="noreferrer"
-                className="min-h-[48px] w-full sm:w-auto px-6 rounded-[10px] bg-[#25D366] hover:opacity-95 text-white font-sans font-semibold text-base inline-flex items-center justify-center gap-2 no-underline transition-opacity"
+                className="min-h-[42px] w-full sm:w-auto px-5 py-2 rounded-[10px] bg-[#25D366] hover:opacity-95 text-white font-sans font-semibold text-sm inline-flex items-center justify-center gap-2 no-underline transition-opacity whitespace-nowrap"
               >
-                <MessageCircle className="w-5 h-5" />
+                <MessageCircle className="w-4 h-4" />
                 <span>{t.hero.whatsappBtn}</span>
+              </motion.a>
+
+              <motion.a
+                whileHover={shouldReduceMotion ? undefined : { y: -2 }}
+                whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
+                href="tel:+919589018011"
+                className="min-h-[42px] w-full sm:w-auto px-5 py-2 rounded-[10px] bg-[#C8961E] hover:bg-[#B58416] text-[#2B0D06] font-sans font-bold text-sm inline-flex items-center justify-center gap-2 no-underline transition-colors shadow-[0_4px_14px_rgba(200,150,30,0.35)] whitespace-nowrap"
+              >
+                <Phone className="w-4 h-4" />
+                <span>{language === 'hi' ? 'कॉल करें' : 'Call Now'}</span>
               </motion.a>
             </motion.div>
           </div>

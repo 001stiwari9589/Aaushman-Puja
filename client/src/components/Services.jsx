@@ -54,10 +54,10 @@ export default function Services() {
     return (
       <motion.article
         key={puja.id}
-        initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-30px' }}
-        transition={{ duration: 0.5, delay: Math.min(index * 0.08, 0.32) }}
+        initial={shouldReduceMotion ? false : { opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: '-20px' }}
+        transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.2) }}
         className={`vedic-card rounded-2xl flex flex-col overflow-hidden group lg:hover:-translate-y-1.5 ${extraClass}`}
       >
         <div className="relative aspect-[16/10] overflow-hidden border-b border-[#EBD5B0]">
@@ -191,8 +191,7 @@ export default function Services() {
 
                 <div
                   ref={row.ref}
-                  style={{ touchAction: 'pan-x pan-y' }}
-                  className="flex gap-4 overflow-x-auto snap-x snap-proximity pb-2 scroll-smooth no-scrollbar px-1"
+                  className="flex gap-4 overflow-x-auto overflow-y-hidden overscroll-x-contain pb-2 scroll-smooth no-scrollbar px-1"
                 >
                   {row.items.map((puja, idx) =>
                     renderPujaCard(puja, idx, 'w-[76vw] sm:w-[290px] shrink-0 snap-start')
