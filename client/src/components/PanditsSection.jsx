@@ -29,15 +29,42 @@ export default function PanditsSection({ onOpenBrahminModal }) {
 
   const allPandits = [...DEFAULT_PANDITS, ...approvedPandits];
 
+  const animRef = useRef(null);
+
   const scrollCarousel = (direction) => {
     const el = carouselRef.current;
     if (!el) return;
+
     const firstCard = el.querySelector('article');
-    const step = firstCard ? firstCard.offsetWidth + 20 : 320;
-    el.scrollBy({
-      left: direction === 'left' ? -step : step,
-      behavior: 'smooth',
-    });
+    const gap = window.innerWidth >= 1024 ? 24 : 16;
+    const step = firstCard ? firstCard.offsetWidth + gap : 340;
+    const delta = direction === 'left' ? -step : step;
+
+    const startLeft = el.scrollLeft;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    const targetLeft = Math.max(0, Math.min(maxScroll, startLeft + delta));
+    const distance = targetLeft - startLeft;
+    if (distance === 0) return;
+
+    if (animRef.current) cancelAnimationFrame(animRef.current);
+
+    const duration = 420;
+    const startTime = performance.now();
+    const easeInOutCubic = (t) =>
+      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    const tick = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      el.scrollLeft = startLeft + distance * easeInOutCubic(progress);
+      if (progress < 1) {
+        animRef.current = requestAnimationFrame(tick);
+      } else {
+        animRef.current = null;
+      }
+    };
+
+    animRef.current = requestAnimationFrame(tick);
   };
 
   const renderPanditCard = (pandit, extraClass = '') => {
@@ -154,7 +181,7 @@ export default function PanditsSection({ onOpenBrahminModal }) {
 
           <div
             ref={carouselRef}
-            className="flex gap-4 lg:gap-6 overflow-x-auto overflow-y-hidden overscroll-x-contain pb-2 scroll-smooth no-scrollbar px-1 lg:px-2"
+            className="flex gap-4 lg:gap-6 overflow-x-auto overflow-y-hidden overscroll-x-contain pb-2 no-scrollbar px-1 lg:px-2"
           >
             {allPandits.map((p) =>
               renderPanditCard(p, 'w-[78vw] sm:w-[300px] lg:w-[340px] lg:min-h-[345px] lg:p-6 shrink-0')
