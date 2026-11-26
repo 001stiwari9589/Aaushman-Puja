@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { X, Flame, CheckCircle2, AlertCircle, Loader2, MessageCircle, RotateCcw, Calendar } from 'lucide-react';
+import confetti from 'canvas-confetti';
+import { X, Flame, CheckCircle2, AlertCircle, Loader2, MessageCircle, RotateCcw, Sparkles } from 'lucide-react';
 import { PUJAS_DATA } from '../data/pujas';
 import { useBookingPopup } from '../context/BookingPopupContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -162,6 +163,34 @@ export default function QuickBookingPopup() {
 
       if (response.ok && data.success) {
         setSuccessData(data.booking);
+        if (!shouldReduceMotion) {
+          try {
+            confetti({
+              particleCount: 80,
+              spread: 70,
+              origin: { y: 0.55 },
+              colors: ['#E65100', '#C8961E', '#FFF1D6', '#25D366'],
+            });
+            setTimeout(() => {
+              confetti({
+                particleCount: 45,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0.15, y: 0.6 },
+                colors: ['#E65100', '#C8961E', '#FFF1D6'],
+              });
+              confetti({
+                particleCount: 45,
+                angle: 120,
+                spread: 55,
+                origin: { x: 0.85, y: 0.6 },
+                colors: ['#E65100', '#C8961E', '#FFF1D6'],
+              });
+            }, 220);
+          } catch {
+            // safe fallback
+          }
+        }
       } else {
         setErrorMsg(data.message || 'Unable to submit booking. Please try again.');
       }
@@ -214,46 +243,37 @@ export default function QuickBookingPopup() {
             </button>
 
             {successData ? (
-              <div className="text-center py-4">
+              <div className="text-center py-4 px-1">
                 <motion.div
-                  initial={shouldReduceMotion ? false : { scale: 0.5, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                  className="w-16 h-16 rounded-full bg-emerald-50 border-2 border-emerald-500 flex items-center justify-center mx-auto mb-4 text-emerald-600"
+                  initial={shouldReduceMotion ? false : { scale: 0.4, rotate: -12, opacity: 0 }}
+                  animate={{ scale: 1, rotate: 0, opacity: 1 }}
+                  transition={{ type: 'spring', stiffness: 280, damping: 18 }}
+                  className="relative w-20 h-20 rounded-full bg-gradient-to-br from-[#FFF8EC] to-[#FBEBD0] border-2 border-[#C8961E] shadow-[0_8px_24px_rgba(230,81,0,0.22)] flex items-center justify-center mx-auto mb-4 text-[#E65100]"
                 >
-                  <CheckCircle2 className="w-9 h-9" />
+                  <CheckCircle2 className="w-10 h-10" />
+                  <Sparkles className="w-5 h-5 text-[#C8961E] absolute -top-1 -right-1 animate-pulse" />
                 </motion.div>
 
-                <h2 id="quick-booking-title" className="font-heading text-2xl font-bold text-[#4A1C0C] mb-1.5">
-                  {language === 'hi' ? 'बुकिंग की पुष्टि हुई!' : 'Booking Request Received!'}
-                </h2>
-                <p className="text-sm text-[#5D4037] mb-4">
-                  {language === 'hi'
-                    ? 'हमारे आचार्य शीघ्र ही आपसे संपर्क करेंगे।'
-                    : 'Our Vedic coordinator will contact you shortly.'}
-                </p>
-
-                <div className="bg-[#FFF8EC] border border-[#EBD5B0] rounded-xl p-3.5 text-left text-sm space-y-1.5 mb-5">
-                  <div className="flex justify-between">
-                    <span className="text-[#8D6E63]">Reference ID:</span>
-                    <span className="font-bold text-[#4A1C0C]">#{successData._id}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#8D6E63]">Puja:</span>
-                    <span className="font-bold text-[#E65100]">{successData.puja}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#8D6E63]">City:</span>
-                    <span className="font-medium text-[#4A1C0C]">{successData.city}</span>
-                  </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FBEBD0] text-[#E65100] text-xs font-bold uppercase tracking-wider mb-2">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>{language === 'hi' ? 'शुभम् भवतु!' : 'Shubham Bhavatu!'}</span>
                 </div>
+
+                <h2 id="quick-booking-title" className="font-heading text-2xl font-bold text-[#4A1C0C] mb-2">
+                  {language === 'hi' ? 'बुकिंग कन्फर्म हो गई!' : 'Booking Confirmed!'}
+                </h2>
+                <p className="text-sm text-[#5D4037] mb-5 leading-relaxed">
+                  {language === 'hi'
+                    ? `धन्यवाद ${successData.fullName} जी! हमारे आचार्य शीघ्र ही आपसे संपर्क करेंगे।`
+                    : `Thank you, ${successData.fullName}! Our Acharya ji will contact you shortly.`}
+                </p>
 
                 <div className="flex flex-col gap-2.5">
                   <a
                     href={whatsappUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="min-h-[48px] w-full rounded-xl bg-[#25D366] hover:opacity-95 text-white font-sans font-bold text-sm inline-flex items-center justify-center gap-2 no-underline"
+                    className="min-h-[46px] w-full rounded-xl bg-[#25D366] hover:opacity-95 text-white font-sans font-bold text-sm inline-flex items-center justify-center gap-2 no-underline shadow-md"
                   >
                     <MessageCircle className="w-5 h-5" />
                     <span>{language === 'hi' ? 'व्हाट्सएप पर चैट करें' : 'Chat on WhatsApp'}</span>
@@ -261,7 +281,7 @@ export default function QuickBookingPopup() {
                   <button
                     type="button"
                     onClick={closeBookingPopup}
-                    className="btn-saffron-outline w-full text-sm"
+                    className="btn-saffron-outline w-full text-sm min-h-[44px]"
                   >
                     {language === 'hi' ? 'बंद करें' : 'Done'}
                   </button>

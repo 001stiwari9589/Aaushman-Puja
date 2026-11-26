@@ -162,10 +162,12 @@ export default function Contact() {
                 </div>
               </a>
 
-              {/* Visible Email + Gmail Compose Fallback */}
+              {/* Visible Email + Gmail Compose */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#FFFFFF] p-4 rounded-xl border border-[#EBD5B0] hover:border-[#E65100] shadow-[0_4px_14px_rgba(74,28,12,0.06)] transition-colors">
                 <a
-                  href={mailtoHref}
+                  href={gmailHref}
+                  target="_blank"
+                  rel="noreferrer"
                   className="flex items-center gap-4 no-underline flex-1 min-w-0"
                 >
                   <div className="w-12 h-12 rounded-full bg-[#FBEBD0] flex items-center justify-center text-[#E65100] shrink-0">
@@ -182,9 +184,7 @@ export default function Contact() {
                 </a>
 
                 <a
-                  href={gmailHref}
-                  target="_blank"
-                  rel="noreferrer"
+                  href={mailtoHref}
                   className="min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#FFF8EC] border border-[#EBD5B0] text-[#E65100] hover:bg-[#E65100] hover:text-white text-xs font-bold transition-colors no-underline shrink-0"
                 >
                   <span>{t.contact.gmailBtn}</span>

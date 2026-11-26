@@ -266,19 +266,16 @@ const sendBookingNotification = async (booking) => {
     const htmlContent = `
       <div style="font-family:Poppins,Arial,sans-serif;background:#FFF8EC;padding:24px;color:#4A1C0C;">
         <div style="max-width:620px;margin:0 auto;background:#FFFFFF;border:1px solid #EBD5B0;border-radius:12px;padding:28px;">
-          <h2 style="margin:0 0 8px;color:#4A1C0C;">Divine Vedic Puja — New Booking</h2>
+          <h2 style="margin:0 0 8px;color:#4A1C0C;">Aaushman Puja — New Booking</h2>
           <p style="margin:0 0 18px;color:#5D4037;font-size:14px;">Reference ID: <strong>#${escapeHtml(booking._id)}</strong></p>
           <table style="width:100%;border-collapse:collapse;font-size:14px;">
             <tr><td style="padding:8px 0;color:#8D6E63;width:38%;">Puja:</td><td style="padding:8px 0;font-weight:700;color:#E65100;">${escapeHtml(booking.puja)}</td></tr>
             <tr><td style="padding:8px 0;color:#8D6E63;">Devotee Name:</td><td style="padding:8px 0;">${escapeHtml(booking.fullName)}</td></tr>
             <tr><td style="padding:8px 0;color:#8D6E63;">Mobile:</td><td style="padding:8px 0;">${escapeHtml(booking.mobile)}</td></tr>
-            <tr><td style="padding:8px 0;color:#8D6E63;">Email:</td><td style="padding:8px 0;">${escapeHtml(booking.email)}</td></tr>
-            <tr><td style="padding:8px 0;color:#8D6E63;">Preferred Date:</td><td style="padding:8px 0;font-weight:700;">${escapeHtml(booking.preferredDate)}</td></tr>
-            <tr><td style="padding:8px 0;color:#8D6E63;">Time Slot:</td><td style="padding:8px 0;">${escapeHtml(booking.preferredTime)}</td></tr>
+            ${booking.email ? `<tr><td style="padding:8px 0;color:#8D6E63;">Email:</td><td style="padding:8px 0;">${escapeHtml(booking.email)}</td></tr>` : ''}
+            ${booking.preferredDate ? `<tr><td style="padding:8px 0;color:#8D6E63;">Preferred Date:</td><td style="padding:8px 0;font-weight:700;">${escapeHtml(booking.preferredDate)}</td></tr>` : ''}
             <tr><td style="padding:8px 0;color:#8D6E63;">City & Address:</td><td style="padding:8px 0;">${escapeHtml(booking.city)}</td></tr>
             <tr><td style="padding:8px 0;color:#8D6E63;">Language:</td><td style="padding:8px 0;">${escapeHtml(booking.language)}</td></tr>
-            ${booking.gotra ? `<tr><td style="padding:8px 0;color:#8D6E63;">Gotra:</td><td style="padding:8px 0;">${escapeHtml(booking.gotra)}</td></tr>` : ''}
-            <tr><td style="padding:8px 0;color:#8D6E63;">Instructions:</td><td style="padding:8px 0;">${escapeHtml(booking.additionalRequirements || 'Standard Vedic Vidhi')}</td></tr>
           </table>
           <div style="margin-top:20px;">
             <a href="tel:${cleanPhone}" style="display:inline-block;background:#E65100;color:#FFFFFF;padding:10px 18px;border-radius:8px;text-decoration:none;font-weight:600;margin-right:8px;">Call Devotee</a>
@@ -287,10 +284,10 @@ const sendBookingNotification = async (booking) => {
         </div>
       </div>`;
     await transporter.sendMail({
-      from: process.env.SMTP_FROM || `"Divine Vedic Puja Sansthan" <${ADMIN_EMAIL}>`,
+      from: process.env.SMTP_FROM || `"Aaushman Puja" <${ADMIN_EMAIL}>`,
       to: ADMIN_EMAIL,
       ...(booking.email ? { cc: booking.email } : {}),
-      subject: `[Divine Vedic Puja] New Booking: ${booking.puja} - ${booking.fullName}`,
+      subject: `[Aaushman Puja] New Booking: ${booking.puja} - ${booking.fullName}`,
       html: htmlContent,
     });
   } catch (err) {
@@ -430,7 +427,7 @@ app.post('/api/contact', formLimiter, async (req, res) => {
       return res.status(400).json({ success: false, message: parsed.error.issues[0]?.message || 'Invalid contact input.' });
     }
 
-    sendContactNotification(parsed.data).catch((err) => console.error(err.message));
+    await sendContactNotification(parsed.data);
 
     return res.json({
       success: true,
@@ -466,7 +463,7 @@ app.post('/api/bookings', formLimiter, async (req, res) => {
       saveLocalStore();
     }
 
-    sendBookingNotification(savedBooking).catch((err) => console.error(err.message));
+    await sendBookingNotification(savedBooking);
 
     return res.status(201).json({
       success: true,
@@ -591,7 +588,7 @@ app.post('/api/brahmins', formLimiter, async (req, res) => {
       saveLocalStore();
     }
 
-    sendBrahminNotification(savedBrahmin).catch((err) => console.error(err.message));
+    await sendBrahminNotification(savedBrahmin);
 
     return res.status(201).json({
       success: true,

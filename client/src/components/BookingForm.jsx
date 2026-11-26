@@ -427,34 +427,30 @@ export default function BookingForm({ preselectedPuja }) {
               onClick={(e) => e.stopPropagation()}
               className="max-w-lg w-full bg-[#FFFFFF] border border-[#EBD5B0] rounded-2xl p-6 sm:p-8 text-center shadow-2xl"
             >
-              <div className="w-16 h-16 rounded-full bg-[#FBEBD0] border-2 border-[#C8961E] flex items-center justify-center mx-auto mb-4 text-[#E65100]">
-                <CheckCircle2 className="w-9 h-9" />
+              <motion.div
+                initial={{ scale: 0.4, rotate: -12, opacity: 0 }}
+                animate={{ scale: 1, rotate: 0, opacity: 1 }}
+                transition={{ type: 'spring', stiffness: 280, damping: 18 }}
+                className="relative w-20 h-20 rounded-full bg-gradient-to-br from-[#FFF8EC] to-[#FBEBD0] border-2 border-[#C8961E] shadow-[0_8px_24px_rgba(230,81,0,0.22)] flex items-center justify-center mx-auto mb-4 text-[#E65100]"
+              >
+                <CheckCircle2 className="w-10 h-10" />
+                <Sparkles className="w-5 h-5 text-[#C8961E] absolute -top-1 -right-1 animate-pulse" />
+              </motion.div>
+
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FBEBD0] text-[#E65100] text-xs font-bold uppercase tracking-wider mb-2">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>{language === 'hi' ? 'शुभम् भवतु!' : 'Shubham Bhavatu!'}</span>
               </div>
 
               <h3 className="font-heading text-2xl sm:text-3xl font-bold text-[#4A1C0C] mb-2">
-                {language === 'hi' ? 'पूजा बुकिंग प्राप्त हुई!' : 'Booking Confirmed!'}
+                {language === 'hi' ? 'बुकिंग कन्फर्म हो गई!' : 'Booking Confirmed!'}
               </h3>
 
-              <p className="text-[#5D4037] text-sm sm:text-base mb-5">
-                Thank you, <strong className="text-[#4A1C0C]">{successData.fullName}</strong>. Your booking for <strong className="text-[#E65100]">{successData.puja}</strong> has been received.
+              <p className="text-[#5D4037] text-sm sm:text-base mb-6 leading-relaxed">
+                {language === 'hi'
+                  ? `धन्यवाद ${successData.fullName} जी! हमारे आचार्य शीघ्र ही आपसे संपर्क करेंगे।`
+                  : `Thank you, ${successData.fullName}! Our Acharya ji will contact you shortly.`}
               </p>
-
-              <div className="bg-[#FFF8EC] rounded-xl p-4 border border-[#EBD5B0] text-left text-sm mb-6 space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-[#8D6E63]">Reference ID:</span>
-                  <span className="text-[#4A1C0C] font-bold">#{successData._id}</span>
-                </div>
-                {successData.preferredDate && (
-                  <div className="flex justify-between">
-                    <span className="text-[#8D6E63]">Preferred Date:</span>
-                    <span className="text-[#E65100] font-bold">{successData.preferredDate}</span>
-                  </div>
-                )}
-                <div className="flex justify-between">
-                  <span className="text-[#8D6E63]">City:</span>
-                  <span className="text-[#4A1C0C] font-medium">{successData.city}</span>
-                </div>
-              </div>
 
               <div className="flex flex-col gap-3">
                 <a
