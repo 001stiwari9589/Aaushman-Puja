@@ -135,7 +135,6 @@ export default function QuickBookingPopup() {
       mobile: validateField('mobile', formData.mobile),
       city: validateField('city', formData.city),
       puja: validateField('puja', formData.puja),
-      preferredDate: validateField('preferredDate', formData.preferredDate),
     };
     const activeErrors = Object.fromEntries(Object.entries(errors).filter(([, v]) => v));
     setFieldErrors(activeErrors);
@@ -187,7 +186,7 @@ export default function QuickBookingPopup() {
           animate={{ opacity: 1 }}
           exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-50 bg-[#3B1208]/70 backdrop-blur-sm flex items-center justify-center p-4 pb-20 sm:p-4"
+          className="fixed inset-0 z-50 bg-[#3B1208]/70 backdrop-blur-sm flex items-center justify-center p-4 pb-16 sm:p-4"
           onClick={closeBookingPopup}
           role="dialog"
           aria-modal="true"
@@ -200,7 +199,7 @@ export default function QuickBookingPopup() {
             exit={shouldReduceMotion ? { opacity: 0 } : { y: 24, scale: 0.96, opacity: 0 }}
             transition={{ type: 'spring', damping: 28, stiffness: 320 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-[440px] max-h-[80dvh] overflow-y-auto bg-[#FFFFFF] border border-[#EBD5B0] rounded-2xl shadow-2xl p-5 sm:p-6 relative"
+            className="w-full max-w-[440px] max-h-[88dvh] overflow-y-auto bg-[#FFFFFF] border border-[#EBD5B0] rounded-2xl shadow-2xl p-4 sm:p-6 relative"
           >
             {/* Mobile drag handle */}
             <div className="sm:hidden w-12 h-1.5 bg-[#EBD5B0] rounded-full mx-auto mb-3" />
@@ -270,17 +269,17 @@ export default function QuickBookingPopup() {
               </div>
             ) : (
               <>
-                <div className="pr-10 mb-4">
-                  <div className="text-xs font-bold uppercase tracking-wider text-[#E65100] mb-0.5">
+                <div className="pr-10 mb-3">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#E65100] mb-0.5">
                     {language === 'hi' ? 'त्वरित पूजा बुकिंग' : 'Quick Puja Booking'}
                   </div>
-                  <h2 id="quick-booking-title" className="font-heading text-2xl font-bold text-[#4A1C0C] m-0">
+                  <h2 id="quick-booking-title" className="font-heading text-xl sm:text-2xl font-bold text-[#4A1C0C] m-0">
                     {language === 'hi' ? 'पंडित जी बुक करें' : 'Book Your Vedic Pandit'}
                   </h2>
                 </div>
 
                 {errorMsg && (
-                  <div className="bg-red-50 border border-red-300 rounded-xl p-3 text-red-800 text-xs mb-4 flex items-center justify-between gap-2">
+                  <div className="bg-red-50 border border-red-300 rounded-xl p-2.5 text-red-800 text-xs mb-3 flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
                       <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
                       <span>{errorMsg}</span>
@@ -296,7 +295,7 @@ export default function QuickBookingPopup() {
                   </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-3.5" noValidate>
+                <form onSubmit={handleSubmit} className="space-y-3" noValidate>
                   <div>
                     <label className="vedic-label" htmlFor="qb-fullName">
                       {t.booking.fullName}
@@ -379,42 +378,20 @@ export default function QuickBookingPopup() {
                     required
                   />
 
-                  <div>
-                    <label className="vedic-label" htmlFor="qb-date">
-                      {language === 'hi' ? 'पसंदीदा तिथि (वैकल्पिक)' : 'Preferred Date (Optional)'}
-                    </label>
-                    <input
-                      id="qb-date"
-                      name="preferredDate"
-                      type="date"
-                      min={today}
-                      value={formData.preferredDate}
-                      onChange={handleChange}
-                      className={`w-full min-h-[48px] px-4 py-2.5 rounded-[12px] bg-[#FFFFFF] border text-[16px] text-[#4A1C0C] font-sans outline-none transition-all ${
-                        fieldErrors.preferredDate
-                          ? 'border-red-600 focus:ring-2 focus:ring-red-200'
-                          : 'border-[#EBD5B0] focus:border-[#E65100] focus:ring-[3px] focus:ring-[#E65100]/15'
-                      }`}
-                    />
-                    {fieldErrors.preferredDate && (
-                      <p className="text-red-600 text-xs mt-1">{fieldErrors.preferredDate}</p>
-                    )}
-                  </div>
-
                   <button
                     type="submit"
                     disabled={loading}
-                    className="btn-saffron-primary w-full min-h-[48px] text-base mt-2"
+                    className="btn-saffron-primary w-full min-h-[44px] py-2.5 text-sm mt-1"
                   >
                     {loading ? (
                       <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <Loader2 className="w-4 h-4 animate-spin" />
                         <span>{t.booking.submitting}</span>
                       </>
                     ) : (
                       <>
                         <Flame className="w-4 h-4" />
-                        <span>{language === 'hi' ? 'बुकिंग कन्फर्म करें' : 'Confirm Quick Booking'}</span>
+                        <span>{language === 'hi' ? 'बुकिंग कन्फर्म करें' : 'Confirm Booking'}</span>
                       </>
                     )}
                   </button>

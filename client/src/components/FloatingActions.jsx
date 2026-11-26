@@ -76,14 +76,14 @@ export default function FloatingActions() {
     <>
       {/* Mobile (<1024px): Fixed Bottom Side-by-Side Call & WhatsApp Pill Buttons */}
       <div
-        className="lg:hidden fixed bottom-0 left-0 right-0 z-30 px-5 pt-2 pointer-events-none"
-        style={{ paddingBottom: 'calc(0.85rem + env(safe-area-inset-bottom))' }}
+        className="lg:hidden fixed bottom-0 left-0 right-0 z-30 px-5 pt-1 pointer-events-none"
+        style={{ paddingBottom: 'calc(0.45rem + env(safe-area-inset-bottom))' }}
       >
         <div className="max-w-md mx-auto flex items-center gap-3">
           <a
             href="tel:+919589018011"
             aria-label="Call Pandit Ji"
-            className={`pointer-events-auto flex-1 h-12 rounded-full bg-[#E65100] hover:bg-[#BF360C] text-white font-sans font-bold text-sm flex items-center justify-center gap-2 shadow-[0_6px_18px_rgba(230,81,0,0.45)] border-2 border-white no-underline active:scale-95 transition-transform ${
+            className={`pointer-events-auto flex-1 h-11 rounded-full bg-[#E65100] hover:bg-[#BF360C] text-white font-sans font-bold text-sm flex items-center justify-center gap-2 shadow-[0_6px_18px_rgba(230,81,0,0.45)] border-2 border-white no-underline active:scale-95 transition-transform ${
               shouldReduceMotion ? '' : 'animate-vibrate'
             }`}
           >
@@ -96,7 +96,7 @@ export default function FloatingActions() {
             target="_blank"
             rel="noreferrer"
             aria-label="Chat on WhatsApp"
-            className={`pointer-events-auto flex-1 h-12 rounded-full bg-[#25D366] hover:opacity-95 text-white font-sans font-bold text-sm flex items-center justify-center gap-2 shadow-[0_6px_18px_rgba(37,211,102,0.45)] border-2 border-white no-underline active:scale-95 transition-transform ${
+            className={`pointer-events-auto flex-1 h-11 rounded-full bg-[#25D366] hover:opacity-95 text-white font-sans font-bold text-sm flex items-center justify-center gap-2 shadow-[0_6px_18px_rgba(37,211,102,0.45)] border-2 border-white no-underline active:scale-95 transition-transform ${
               shouldReduceMotion ? '' : 'animate-vibrate'
             }`}
             style={shouldReduceMotion ? undefined : { animationDelay: '0.4s' }}

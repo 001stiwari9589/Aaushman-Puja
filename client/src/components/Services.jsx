@@ -173,28 +173,10 @@ export default function Services() {
             { items: mobileRow2, ref: row2Ref, label: language === 'hi' ? 'अन्य वैदिक अनुष्ठान' : 'More Vedic Rituals' },
           ].map((row, rowIdx) => (
             <div key={rowIdx} className="relative">
-              <div className="flex items-center justify-between mb-2.5 px-1">
+              <div className="mb-2.5 px-1">
                 <span className="font-heading text-base font-bold text-[#4A1C0C]">
                   {row.label}
                 </span>
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => scrollRow(row.ref, 'left')}
-                    aria-label="Scroll pujas left"
-                    className="w-9 h-9 rounded-full bg-white border border-[#EBD5B0] shadow-sm flex items-center justify-center text-[#4A1C0C] active:scale-95 hover:border-[#E65100] hover:text-[#E65100] transition-colors"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => scrollRow(row.ref, 'right')}
-                    aria-label="Scroll pujas right"
-                    className="w-9 h-9 rounded-full bg-white border border-[#EBD5B0] shadow-sm flex items-center justify-center text-[#4A1C0C] active:scale-95 hover:border-[#E65100] hover:text-[#E65100] transition-colors"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-                </div>
               </div>
 
               <div className="relative">
