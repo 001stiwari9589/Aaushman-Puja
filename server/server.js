@@ -714,6 +714,7 @@ app.get('/api/brahmins/public', async (req, res) => {
       city: b.city,
       languages: b.languages,
       defaultPuja: '',
+      isApprovedMember: true,
     }));
     return res.json({ success: true, brahmins: safeList });
   } catch {

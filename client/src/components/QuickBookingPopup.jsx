@@ -157,8 +157,8 @@ export default function QuickBookingPopup() {
           preferredTime: 'Morning (06:00 AM - 09:00 AM)',
           language: language === 'hi' ? 'Hindi & Sanskrit' : 'English & Hindi',
           email: '',
-          assignedPanditId: assignedPandit?.id || '',
-          assignedPanditName: assignedPandit?.name || '',
+          assignedPanditId: assignedPandit?.isApprovedMember ? assignedPandit.id : '',
+          assignedPanditName: assignedPandit?.isApprovedMember ? assignedPandit.name : '',
         }),
       });
       const data = await response.json();
@@ -271,7 +271,7 @@ export default function QuickBookingPopup() {
                   <h2 id="quick-booking-title" className="font-heading text-xl sm:text-2xl font-bold text-[#4A1C0C] m-0">
                     {language === 'hi' ? 'पंडित जी बुक करें' : 'Book Your Vedic Pandit'}
                   </h2>
-                  {assignedPandit && (
+                  {assignedPandit?.isApprovedMember && (
                     <div className="mt-1.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#FFF8EC] border border-[#C8961E]/60 text-[11px] font-bold text-[#4A1C0C]">
                       <Sparkles className="w-3 h-3 text-[#E65100]" />
                       <span>

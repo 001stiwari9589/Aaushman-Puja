@@ -30,10 +30,12 @@ export default function PanditsSection({ onOpenBrahminModal }) {
   const allPandits = [...DEFAULT_PANDITS, ...approvedPandits];
 
   const scrollCarousel = (direction) => {
-    if (!carouselRef.current) return;
-    const distance = Math.max(carouselRef.current.clientWidth * 0.78, 260);
-    carouselRef.current.scrollBy({
-      left: direction === 'left' ? -distance : distance,
+    const el = carouselRef.current;
+    if (!el) return;
+    const firstCard = el.querySelector('article');
+    const step = firstCard ? firstCard.offsetWidth + 20 : 320;
+    el.scrollBy({
+      left: direction === 'left' ? -step : step,
       behavior: 'smooth',
     });
   };
