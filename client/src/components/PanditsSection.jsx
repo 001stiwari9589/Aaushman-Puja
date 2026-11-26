@@ -174,13 +174,13 @@ export default function PanditsSection({ onOpenBrahminModal }) {
 
         {/* Join as Brahmin CTA */}
         {onOpenBrahminModal && (
-          <div className="text-center mt-8">
+          <div className="text-center mt-9">
             <button
               type="button"
               onClick={onOpenBrahminModal}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#FFFFFF] border border-[#C8961E] text-[#4A1C0C] hover:bg-[#E65100] hover:text-white hover:border-[#E65100] font-sans text-xs sm:text-sm font-bold shadow-sm transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2.5 px-7 py-3 rounded-full bg-gradient-to-r from-[#4A1C0C] via-[#7B280D] to-[#E65100] text-[#FFF8EC] border-2 border-[#C8961E] font-sans text-xs sm:text-sm font-bold shadow-[0_8px_22px_rgba(230,81,0,0.28)] hover:shadow-[0_12px_28px_rgba(230,81,0,0.38)] hover:-translate-y-0.5 active:scale-95 transition-all cursor-pointer"
             >
-              <Sparkles className="w-4 h-4 text-[#C8961E]" />
+              <Sparkles className="w-4 h-4 text-[#FFD54F] shrink-0" />
               <span>
                 {language === 'hi'
                   ? 'क्या आप वैदिक आचार्य हैं? आउष्मान पूजा से जुड़ें →'

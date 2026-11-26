@@ -17,9 +17,36 @@ export default function BrahminModal({ isOpen, onClose }) {
 
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [fieldErrors, setFieldErrors] = useState({});
   const [success, setSuccess] = useState(false);
 
   if (!isOpen) return null;
+
+  const validateField = (name, value) => {
+    const val = typeof value === 'string' ? value.trim() : '';
+    switch (name) {
+      case 'fullName':
+        if (!val) return 'Full name is required.';
+        if (val.length < 2) return 'Please enter at least 2 characters.';
+        return '';
+      case 'mobile':
+        if (!val) return 'Mobile number is required.';
+        if (!/^[6-9]\d{9}$/.test(val)) return 'Enter a valid 10-digit Indian mobile number.';
+        return '';
+      case 'email':
+        if (!val) return 'Email address is required.';
+        if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(val)) return 'Enter a valid email address.';
+        return '';
+      case 'city':
+        if (!val || val.length < 2) return 'City / State is required.';
+        return '';
+      case 'qualification':
+        if (!val || val.length < 3) return 'Please enter your Vedic qualification / specialization.';
+        return '';
+      default:
+        return '';
+    }
+  };
 
   const handleChange = (e) => {
     const { name } = e.target;
@@ -30,22 +57,22 @@ export default function BrahminModal({ isOpen, onClose }) {
       value = value.replace(/\D/g, '').slice(0, 10);
     }
     setFormData((prev) => ({ ...prev, [name]: value }));
+    const err = validateField(name, value);
+    setFieldErrors((prev) => ({ ...prev, [name]: err }));
     if (errorMsg) setErrorMsg('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.fullName.trim() || formData.fullName.trim().length < 2) {
-      return setErrorMsg('Please enter a valid full name (letters only).');
-    }
-    if (!/^[6-9]\d{9}$/.test(formData.mobile)) {
-      return setErrorMsg('Please enter a valid 10-digit Indian mobile number.');
-    }
-    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email.trim())) {
-      return setErrorMsg('Please enter a valid email address.');
-    }
-    if (!formData.city.trim() || !formData.qualification.trim()) {
-      return setErrorMsg('Please fill out all required fields.');
+    const required = ['fullName', 'mobile', 'email', 'city', 'qualification'];
+    const errors = {};
+    required.forEach((key) => {
+      const err = validateField(key, formData[key]);
+      if (err) errors[key] = err;
+    });
+    setFieldErrors(errors);
+    if (Object.keys(errors).length > 0) {
+      return;
     }
 
     setLoading(true);
@@ -152,9 +179,12 @@ export default function BrahminModal({ isOpen, onClose }) {
                     value={formData.fullName}
                     onChange={handleChange}
                     placeholder="Enter your full name"
-                    className="vedic-input"
+                    className={`vedic-input ${fieldErrors.fullName ? '!border-red-600 focus:!ring-red-200' : ''}`}
                     required
                   />
+                  {fieldErrors.fullName && (
+                    <p className="text-red-600 text-xs mt-1 font-medium">{fieldErrors.fullName}</p>
+                  )}
                 </div>
 
                 <div>
@@ -167,9 +197,12 @@ export default function BrahminModal({ isOpen, onClose }) {
                     value={formData.mobile}
                     onChange={handleChange}
                     placeholder="Enter 10-digit mobile number"
-                    className="vedic-input"
+                    className={`vedic-input ${fieldErrors.mobile ? '!border-red-600 focus:!ring-red-200' : ''}`}
                     required
                   />
+                  {fieldErrors.mobile && (
+                    <p className="text-red-600 text-xs mt-1 font-medium">{fieldErrors.mobile}</p>
+                  )}
                 </div>
 
                 <div>
@@ -180,9 +213,12 @@ export default function BrahminModal({ isOpen, onClose }) {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="Enter your email address"
-                    className="vedic-input"
+                    className={`vedic-input ${fieldErrors.email ? '!border-red-600 focus:!ring-red-200' : ''}`}
                     required
                   />
+                  {fieldErrors.email && (
+                    <p className="text-red-600 text-xs mt-1 font-medium">{fieldErrors.email}</p>
+                  )}
                 </div>
 
                 <div>
@@ -193,9 +229,12 @@ export default function BrahminModal({ isOpen, onClose }) {
                     value={formData.city}
                     onChange={handleChange}
                     placeholder="Enter your city and state"
-                    className="vedic-input"
+                    className={`vedic-input ${fieldErrors.city ? '!border-red-600 focus:!ring-red-200' : ''}`}
                     required
                   />
+                  {fieldErrors.city && (
+                    <p className="text-red-600 text-xs mt-1 font-medium">{fieldErrors.city}</p>
+                  )}
                 </div>
 
                 <CustomSelect
@@ -233,9 +272,12 @@ export default function BrahminModal({ isOpen, onClose }) {
                   value={formData.qualification}
                   onChange={handleChange}
                   placeholder="Enter your Vedic qualification &amp; Gurukul"
-                  className="vedic-input"
+                  className={`vedic-input ${fieldErrors.qualification ? '!border-red-600 focus:!ring-red-200' : ''}`}
                   required
                 />
+                {fieldErrors.qualification && (
+                  <p className="text-red-600 text-xs mt-1 font-medium">{fieldErrors.qualification}</p>
+                )}
               </div>
 
               <div className="mb-6">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Sparkles } from 'lucide-react';
+import { Phone } from 'lucide-react';
 import { PUJAS_DATA } from '../data/pujas';
 import { useLanguage } from '../context/LanguageContext';
 import { useBookingPopup } from '../context/BookingPopupContext';
@@ -116,15 +116,6 @@ export default function Footer({ onOpenBrahminModal, isMobileView, onMobileNavig
                 >
                   {t.footer.contact}
                 </a>
-              </li>
-              <li>
-                <button
-                  onClick={onOpenBrahminModal}
-                  className="bg-transparent border-none p-0 text-[#C8961E] hover:text-white text-xs sm:text-sm font-semibold cursor-pointer inline-flex items-center gap-1.5"
-                >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>{language === 'hi' ? 'ब्राह्मण के रूप में जुड़ें' : 'Join as Brahmin'}</span>
-                </button>
               </li>
             </ul>
           </div>
