@@ -8,7 +8,6 @@ import BookingForm from './components/BookingForm';
 import FAQ from './components/FAQ';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import GoldenCursor from './components/GoldenCursor';
 import Preloader from './components/Preloader';
 import FloatingActions from './components/FloatingActions';
 import QuickBookingPopup from './components/QuickBookingPopup';
@@ -96,8 +95,6 @@ function MainAppContent() {
 
   return (
     <div className="vedic-app min-h-dvh bg-[#FFF8EC] text-[#5D4037] relative font-sans overflow-x-hidden">
-      <GoldenCursor />
-
       <AnimatePresence>
         {loading && <Preloader onComplete={() => setLoading(false)} />}
       </AnimatePresence>
